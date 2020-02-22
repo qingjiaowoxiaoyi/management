@@ -86,12 +86,13 @@ export default class Goods extends Vue {
             'Button',
             {
               props: {
-                type: 'primary',
+                type: 'info',
                 size: 'small',
                 icon: 'ios-create'
               },
               style: {
                 marginRight: '5px',
+                fontSize: '12px'
               },
               on: {
                 click: () => {

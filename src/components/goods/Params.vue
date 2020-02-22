@@ -87,12 +87,13 @@ export default class Params extends Vue {
             'Button',
             {
               props: {
-                type: 'primary',
+                type: 'info',
                 size: 'small',
                 icon: 'ios-create'
               },
               style: {
-                marginRight: '5px'
+                marginRight: '5px',
+                fontSize: '12px'
               },
               on: {
                 click: () => {
@@ -109,10 +110,11 @@ export default class Params extends Vue {
               props: {
                 type: 'error',
                 size: 'small',
-                icon: 'ios-create'
+                icon: 'ios-trash-outline'
               },
               style: {
-                marginRight: '5px'
+                marginRight: '5px',
+                fontSize: '12px'
               },
               on: {
                 click: () => {

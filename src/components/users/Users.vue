@@ -80,12 +80,13 @@ export default class Users extends Vue {
             'Button',
             {
               props: {
-                type: 'primary',
+                type: 'info',
                 size: 'small',
                 icon: 'ios-create'
               },
               style: {
                 marginRight: '5px',
+                fontSize: '12px'
               },
               on: {
                 click: () => {
@@ -109,12 +110,13 @@ export default class Users extends Vue {
             'Button',
             {
               props: {
-                type: 'primary',
+                type: 'info',
                 size: 'small',
                 icon: 'ios-create'
               },
               style: {
-                marginRight: '5px'
+                marginRight: '5px',
+                fontSize: '12px'
               },
               on: {
                 click: () => {
@@ -139,12 +141,13 @@ export default class Users extends Vue {
             'Button',
             {
               props: {
-                type: 'primary',
+                type: 'info',
                 size: 'small',
                 icon: 'ios-create'
               },
               style: {
-                marginRight: '5px'
+                marginRight: '5px',
+                fontSize: '12px'
               },
               on: {
                 click: () => {
@@ -169,12 +172,13 @@ export default class Users extends Vue {
             'Button',
             {
               props: {
-                type: 'primary',
+                type: 'info',
                 size: 'small',
                 icon: 'ios-create'
               },
               style: {
-                marginRight: '5px'
+                marginRight: '5px',
+                fontSize: '12px'
               },
               on: {
                 click: () => {
@@ -199,12 +203,13 @@ export default class Users extends Vue {
             'Button',
             {
               props: {
-                type: 'primary',
+                type: 'info',
                 size: 'small',
                 icon: 'ios-create'
               },
               style: {
-                marginRight: '5px'
+                marginRight: '5px',
+                fontSize: '12px'
               },
               on: {
                 click: () => {

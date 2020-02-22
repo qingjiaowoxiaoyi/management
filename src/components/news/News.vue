@@ -28,7 +28,7 @@ export default class News extends Vue {
   columns: Array<any> = [
     {
       title: '序号',
-      key: 'id',
+      key: '_id',
       align: 'center',
       width:50,
     },
@@ -53,11 +53,12 @@ export default class News extends Vue {
             'Button',
             {
               props: {
-                type: 'primary',
+                type: 'info',
                 size: 'small'
               },
               style: {
-                marginRight: '5px'
+                marginRight: '5px',
+                fontSize: '12px'
               },
               on: {
                 click: () => {
@@ -73,10 +74,11 @@ export default class News extends Vue {
             {
               props: {
                 type: 'error',
-                size: 'small'
+                size: 'small',
               },
               style: {
-                marginRight: '5px'
+                marginRight: '5px',
+                fontSize: '12px'
               },
               on: {
                 click: () => {
