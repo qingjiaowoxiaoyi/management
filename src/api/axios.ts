@@ -33,6 +33,7 @@ axios.interceptors.response.use(function(response) {
     return response;
   },
   function(error) {
+    console.log(error.response)
     if (error.response) {
       const { status } = error.response;
       //如果401或405则到登录页

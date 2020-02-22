@@ -14,6 +14,8 @@ import News from '@/components/news/News.vue';
 import TotalChart from '@/components/chart-data/Total-chart.vue';
 import CollectionTotal from '@/components/chart-data/Collection-total.vue';
 
+import {Message} from 'view-design';
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -143,6 +145,7 @@ const router = new VueRouter({
 
 // 导航守卫
 // 使用 router.beforeEach 注册一个全局前置守卫，判断用户是否登陆
+const that = this
 router.beforeEach((to, from, next) => {
     if (to.path === '/login') {
       next();
@@ -150,6 +153,7 @@ router.beforeEach((to, from, next) => {
       let token = localStorage.getItem('tokenName');
    
       if (token === null || token === '') {
+        (Message as any).error('加载失败');
         next('/login');
       } else {
         next();

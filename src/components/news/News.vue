@@ -140,19 +140,23 @@ export default class News extends Vue {
 
   // 获取新闻api
   getNews(){
+    const loading = this.$Loading;
+    loading.start();
     get('http://127.0.0.1:3000/news/getnews')
     .then(res=>{
       this.data=(res as any).doc;
-      console.log(res);
-    }).catch(err => {
+    })
+    .catch(err => {
        this.$Message.error('加载失败'+err);
     })
+    .finally(() => {
+      loading.finish();
+    });
   }
   // 新增新闻api
   postNews(row?:any){
     post('http://127.0.0.1:3000/news',row)
     .then(res=>{
-      console.log(res,'add');
       this.getNews();
     }).catch(err => {
        this.$Message.error('加载失败'+err);
@@ -160,10 +164,8 @@ export default class News extends Vue {
   }
   // 修改新闻api
   putNews(row?:any){
-    console.log(row)
     put('http://127.0.0.1:3000/news',row)
     .then(res=>{
-      console.log(res,'change');
       this.getNews();
     }).catch(err => {
        this.$Message.error('加载失败'+err);
@@ -173,7 +175,6 @@ export default class News extends Vue {
   deleteNews(row?:any){
     deletefn('http://127.0.0.1:3000/news',row)
     .then(res=>{
-      console.log(res,'change');
       this.getNews();
     }).catch(err => {
        this.$Message.error('加载失败'+err);
