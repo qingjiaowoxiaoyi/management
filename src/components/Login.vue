@@ -22,6 +22,7 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import { get,post,put,deletefn } from '@/api/axios';
+import axios from 'axios';
 @Component({
   components: {
     
@@ -35,11 +36,16 @@ export default class Login extends Vue {
   handleSubmit(){
     const loading = this.$Loading;
     loading.start();
-    post('http://127.0.0.1:3000/admin/login',{account:this.account,password:this.password})
+    // post('http://127.0.0.1:3000/admin/login',{account:this.account,password:this.password})
+    axios.post('http://127.0.0.1:3000/admin/login',{account:this.account,password:this.password})
     .then((res) => {
-      localStorage.setItem('tokenName', (res as any).token)
-      this.$Message.info("登入成功");
-      this.$router.push("/home"); // 登入成功后跳到首页
+      if(res.data.code !== ''){
+        this.$Message.error(res.data.msg);
+      } else {
+        localStorage.setItem('tokenName', (res as any).token)
+        this.$Message.info("登入成功");
+        this.$router.push("/home"); // 登入成功后跳到首页
+      }
     })
     .catch(err => {
        this.$Message.error("登入失败，请检查帐号与密码");

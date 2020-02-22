@@ -13,8 +13,11 @@ axios.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8';
 axios.interceptors.request.use(function(config) {
     //从localStorage里取出token
     const token = localStorage.getItem('tokenName');
-    //把token塞入Authorization里
-    config.headers.Authorization = `Bearer ${token}`;
+    if(token&& token !== 'undefined'&&token!==undefined){
+        //把token塞入Authorization里
+        config.headers.Authorization = `Bearer ${token}`;
+    }
+    // config.headers.Authorization = `Bearer ${token}`;
     
     return config;
   },
@@ -33,7 +36,6 @@ axios.interceptors.response.use(function(response) {
     return response;
   },
   function(error) {
-    console.log(error.response)
     if (error.response) {
       const { status } = error.response;
       //如果401或405则到登录页
