@@ -5,7 +5,7 @@
                 <div>
                   <img style="height: 35px;" src="../assets/logo.png" alt />
                   <span style="font-size: 40px; color: #fff; margin-left: 15px;">电商后台管理系统</span>
-                  <Button size="large" type="info" style="background-color: #4A5064; font-size: 10px; line-height: 24px; color: #fff; text-align: center; letter-spacing: 0.2em; cursor: pointer; float:right; margin-top:12px;">退出</Button>
+                  <Button size="large" type="info" style="background-color: #4A5064; font-size: 10px; line-height: 24px; color: #fff; text-align: center; letter-spacing: 0.2em; cursor: pointer; float:right; margin-top:12px;" @click="exit">退出</Button>
                 </div>
             </Header>
             <Layout>
@@ -106,6 +106,13 @@ export default class HelloWorld extends Vue {
 //   routechange(to: any, from: any) {
 //       this.breadlist = this.$route.matched;
 //   }
+
+  // 退出
+  exit(){
+    localStorage.removeItem('tokenName');  // 删除本地local  
+    this.$router.push("/login"); // 退出后跳到登录页
+    this.$Message.info("退出成功");
+  }  
 
   created() {
     this.menulist=(this.$router as any).options.routes[2].children.splice(1,(this.$router as any).options.routes[2].children.length);

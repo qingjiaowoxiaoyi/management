@@ -151,8 +151,8 @@ router.beforeEach((to, from, next) => {
     } else {
       let token = localStorage.getItem('tokenName');
    
-      if (token === null || token === '') {
-        (Message as any).error('加载失败');
+      if (token === null || token === '' || token===undefined || token==='undefined') {
+        (Message as any).error('登录时间过期');
         next('/login');
       } else {
         next();

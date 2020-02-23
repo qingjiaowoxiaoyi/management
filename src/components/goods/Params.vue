@@ -7,8 +7,8 @@
          <Page :total="total" :current="1" size="small" show-elevator show-sizer show-total @on-change="onPageChange" @on-page-size-change="onPageSizeChange"></Page>
        </div>
      </div>
-     <ParamsAdd ref="ParamsAdd" @requestParams='requestParams'></ParamsAdd>
-     <ParamsEdit ref="ParamsEdit" @requestParams='requestParams'></ParamsEdit>
+     <ParamsAdd ref="ParamsAdd" @requestParams='postParams'></ParamsAdd>
+     <ParamsEdit ref="ParamsEdit" @requestParams='putParams'></ParamsEdit>
    </div>
 </template>
 
@@ -17,6 +17,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 import { Button,Table,Page,Modal } from 'view-design';
 import ParamsEdit from './model/Params-edit.vue';
 import ParamsAdd from './model/Params-add.vue';
+import {get,post,put,deletefn} from '@/api/axios';
 @Component({
   name:'Params',
   components: {
@@ -33,10 +34,10 @@ export default class Params extends Vue {
   columns: Array<any> = [
     {
       title: '分类名称',
-      key: 'paramsName',
+      key: 'category',
       align: 'center',
       tree: true,
-      minWidth:80,
+      minWidth:80
     },
     {
       title: '是否有效',
@@ -119,7 +120,11 @@ export default class Params extends Vue {
               on: {
                 click: () => {
                   // 删除分类，以id为判断标准，后端接受id查询后删除,再重新请求
-                  console.log(params.row)
+                  if(params.row.children&&params.row.children.length>0){
+                    this.deleteParams('http://127.0.0.1:3000/category/senior',{category:params.row.category})
+                    return;
+                  }
+                  this.deleteParams('http://127.0.0.1:3000/category',{cateID:params.row.propID})
                 }
               }
             },
@@ -130,86 +135,7 @@ export default class Params extends Vue {
     },
   ];
 
-  data: Array<any> = [
-    {
-      id:'100',
-      paramsName:'蛋糕',
-      isok:true,
-      level:'一级',
-      children:[
-        {
-          id:'101',
-          paramsName:'蒸蛋糕',
-          isok:true,
-          level:'二级',
-        },
-        {
-          id:'102',
-          paramsName:'脱水蛋糕',
-          isok:true,
-          level:'二级',
-        },
-        {
-          id:'103',
-          paramsName:'马卡龙',
-          isok:true,
-          level:'二级',
-        }
-      ]
-    },
-    {
-      id:'200',
-      paramsName:'电脑',
-      isok:true,
-      level:'一级',
-      children:[
-        {
-          id:'201',
-          paramsName:'联想',
-          isok:true,
-          level:'二级',
-        },
-        {
-          id:'202',
-          paramsName:'戴尔',
-          isok:true,
-          level:'二级',
-        },
-        {
-          id:'203',
-          paramsName:'外星人',
-          isok:true,
-          level:'二级',
-        }
-      ]
-    },
-    {
-      id:'300',
-      paramsName:'水果',
-      isok:true,
-      level:'一级',
-      children:[
-        {
-          id:'301',
-          paramsName:'苹果',
-          isok:true,
-          level:'二级',
-        },
-        {
-          id:'302',
-          paramsName:'香蕉',
-          isok:true,
-          level:'二级',
-        },
-        {
-          id:'303',
-          paramsName:'凤梨',
-          isok:true,
-          level:'二级',
-        }
-      ]
-    }
-  ]
+  data: Array<any> = []
 
   // 要查询数据
   queryData: any = {
@@ -227,16 +153,159 @@ export default class Params extends Vue {
   total:number=0;//总页数
   onPageChange(pageInfo: number) {
     this.queryData.page = pageInfo;
-    this.requestParams();
+    this.getParams();
   }
   onPageSizeChange(newPageSize: number) {
     this.queryData.pageSize = newPageSize;
-    this.requestParams();
+    this.getParams();
   }
 
-  // api
-  requestParams(){
-    console.log('ok')
+  // 获取分类api
+  getParams(){
+    const loading = this.$Loading;
+    loading.start();
+    get('http://127.0.0.1:3000/category')
+    .then(res=>{
+      this.data=(res as any).doc;
+      this.data.forEach((item,index)=>{
+        if(item.children&&item.children.length>0){
+          item.children.forEach((element:any,num:number)=>{
+            element.category = element.property;
+          })
+        }
+      })
+      this.$Message.info((res as any).msg);
+    })
+    .catch(err => {
+       this.$Message.error('加载失败');
+    })
+    .finally(() => {
+      loading.finish();
+    });
+
+    // setTimeout(()=>{
+    //   this.data = [
+    //     {
+    //     id:'100',
+    //     category:'蛋糕',
+    //     isok:true,
+    //     level:'一级',
+    //     children:[
+    //       {
+    //         propID:'101',
+    //         property:'蒸蛋糕',
+    //         isok:true,
+    //         level:'二级',
+    //       },
+    //       {
+    //         propID:'102',
+    //         property:'脱水蛋糕',
+    //         isok:true,
+    //         level:'二级',
+    //       },
+    //       {
+    //         propID:'103',
+    //         property:'马卡龙',
+    //         isok:true,
+    //         level:'二级',
+    //       }
+    //     ]
+    //     },
+    //     {
+    //     id:'200',
+    //     category:'电脑',
+    //     isok:true,
+    //     level:'一级',
+    //     children:[
+    //       {
+    //         propID:'201',
+    //         property:'联想',
+    //         isok:true,
+    //         level:'二级',
+    //       },
+    //       {
+    //         propID:'202',
+    //         property:'戴尔',
+    //         isok:true,
+    //         level:'二级',
+    //       },
+    //       {
+    //         propID:'203',
+    //         property:'外星人',
+    //         isok:true,
+    //         level:'二级',
+    //       }
+    //     ]
+    //     },
+    //     {
+    //     id:'300',
+    //     category:'水果',
+    //     isok:true,
+    //     level:'一级',
+    //     children:[
+    //       {
+    //         propID:'301',
+    //         property:'苹果',
+    //         isok:true,
+    //         level:'二级',
+    //       },
+    //       {
+    //         propID:'302',
+    //         property:'香蕉',
+    //         isok:true,
+    //         level:'二级',
+    //       },
+    //       {
+    //         propID:'303',
+    //         property:'凤梨',
+    //         isok:true,
+    //         level:'二级',
+    //       }
+    //     ]
+    //     }
+    //   ]
+    //   this.data.forEach((item,index)=>{
+    //     if(item.children&&item.children.length>0){
+    //       item.children.forEach((element:any,num:number)=>{
+    //         element.category = element.property;
+    //       })
+    //     }
+    //   })
+    // },50)
+  }
+  // 新增分类api
+  postParams(row?:any){
+    post('http://127.0.0.1:3000/category',row)
+    .then(res=>{
+      this.getParams();
+      this.$Message.info((res as any).msg);
+    }).catch(err => {
+       this.$Message.error('加载失败');
+    })
+  }
+  // 修改分类api
+  putParams(row?:any){
+    put('http://127.0.0.1:3000/category',row)
+    .then(res=>{
+      this.getParams();
+      this.$Message.info((res as any).msg);
+    }).catch(err => {
+       this.$Message.error('加载失败');
+    })
+  }
+  // 删除分类api
+  deleteParams(url?:any,row?:any){
+    deletefn(url,row)
+    .then(res=>{
+      this.getParams();
+      this.$Message.info((res as any).msg);
+    }).catch(err => {
+       this.$Message.error('加载失败');
+    })
+  }
+
+  created() {
+    this.getParams()
   }
 }
 </script>

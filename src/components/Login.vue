@@ -39,10 +39,10 @@ export default class Login extends Vue {
     // post('http://127.0.0.1:3000/admin/login',{account:this.account,password:this.password})
     axios.post('http://127.0.0.1:3000/admin/login',{account:this.account,password:this.password})
     .then((res) => {
-      if(res.data.code !== ''){
+      if(res.data.code !== '1'){
         this.$Message.error(res.data.msg);
       } else {
-        localStorage.setItem('tokenName', (res as any).token)
+        localStorage.setItem('tokenName', (res as any).data.token);
         this.$Message.info("登入成功");
         this.$router.push("/home"); // 登入成功后跳到首页
       }
