@@ -80,13 +80,13 @@ export default class TypeChange extends Vue {
           data:{
             specType:this.row.specType
           }
-        },'http://127.0.0.1:3000/category')
+        },'http://127.0.0.1:3000/category/spec')
         this.flag=false;
         return;
       }
       // 新增
       this.postType({
-        cateID:this._id,
+        propID:this._id,
         data:{
           specType:this.row
         }

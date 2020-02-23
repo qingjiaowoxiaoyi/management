@@ -164,11 +164,15 @@ export default class Type extends Vue {
   getType(row?:any){
     const loading = this.$Loading;
     loading.start();
-    post('http://127.0.0.1:3000/category/getspec',row)
+    post('http://127.0.0.1:3000/category/getspec',{property:row})
     .then(res=>{
-      this.data=(res as any).doc.specs;
-      this._id=(res as any).doc._id;
-      this.$Message.info((res as any).msg);
+        if((res as any).code === '200'){
+            this.data=(res as any).doc.specs;
+            this._id=(res as any).doc._id;
+            this.$Message.info((res as any).msg);
+        } else {
+            this.$Message.error((res as any).msg);
+        }
     }).catch(err => {
        this.$Message.error('加载失败');
     }).finally(() => {
