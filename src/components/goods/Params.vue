@@ -174,7 +174,7 @@ export default class Params extends Vue {
           })
         }
       })
-      this.$Message.info((res as any).msg);
+      this.$Message.info((res as any).data.msg);
     })
     .catch(err => {
        this.$Message.error('加载失败');
@@ -182,103 +182,13 @@ export default class Params extends Vue {
     .finally(() => {
       loading.finish();
     });
-
-    // setTimeout(()=>{
-    //   this.data = [
-    //     {
-    //     id:'100',
-    //     category:'蛋糕',
-    //     isok:true,
-    //     level:'一级',
-    //     children:[
-    //       {
-    //         propID:'101',
-    //         property:'蒸蛋糕',
-    //         isok:true,
-    //         level:'二级',
-    //       },
-    //       {
-    //         propID:'102',
-    //         property:'脱水蛋糕',
-    //         isok:true,
-    //         level:'二级',
-    //       },
-    //       {
-    //         propID:'103',
-    //         property:'马卡龙',
-    //         isok:true,
-    //         level:'二级',
-    //       }
-    //     ]
-    //     },
-    //     {
-    //     id:'200',
-    //     category:'电脑',
-    //     isok:true,
-    //     level:'一级',
-    //     children:[
-    //       {
-    //         propID:'201',
-    //         property:'联想',
-    //         isok:true,
-    //         level:'二级',
-    //       },
-    //       {
-    //         propID:'202',
-    //         property:'戴尔',
-    //         isok:true,
-    //         level:'二级',
-    //       },
-    //       {
-    //         propID:'203',
-    //         property:'外星人',
-    //         isok:true,
-    //         level:'二级',
-    //       }
-    //     ]
-    //     },
-    //     {
-    //     id:'300',
-    //     category:'水果',
-    //     isok:true,
-    //     level:'一级',
-    //     children:[
-    //       {
-    //         propID:'301',
-    //         property:'苹果',
-    //         isok:true,
-    //         level:'二级',
-    //       },
-    //       {
-    //         propID:'302',
-    //         property:'香蕉',
-    //         isok:true,
-    //         level:'二级',
-    //       },
-    //       {
-    //         propID:'303',
-    //         property:'凤梨',
-    //         isok:true,
-    //         level:'二级',
-    //       }
-    //     ]
-    //     }
-    //   ]
-    //   this.data.forEach((item,index)=>{
-    //     if(item.children&&item.children.length>0){
-    //       item.children.forEach((element:any,num:number)=>{
-    //         element.category = element.property;
-    //       })
-    //     }
-    //   })
-    // },50)
   }
   // 新增分类api
   postParams(row?:any){
     post('http://127.0.0.1:3000/category',row)
     .then(res=>{
       this.getParams();
-      this.$Message.info((res as any).msg);
+      this.$Message.info((res as any).data.msg);
     }).catch(err => {
        this.$Message.error('加载失败');
     })
@@ -288,17 +198,18 @@ export default class Params extends Vue {
     put('http://127.0.0.1:3000/category',row)
     .then(res=>{
       this.getParams();
-      this.$Message.info((res as any).msg);
+      this.$Message.info((res as any).data.msg);
     }).catch(err => {
        this.$Message.error('加载失败');
     })
   }
   // 删除分类api
   deleteParams(url?:any,row?:any){
+    console.log(url,row)
     deletefn(url,row)
     .then(res=>{
       this.getParams();
-      this.$Message.info((res as any).msg);
+      this.$Message.info((res as any).data.msg);
     }).catch(err => {
        this.$Message.error('加载失败');
     })
