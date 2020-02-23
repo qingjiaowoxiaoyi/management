@@ -166,7 +166,7 @@ export default class Params extends Vue {
     loading.start();
     get('http://127.0.0.1:3000/category')
     .then(res=>{
-      this.data=(res as any).doc;
+      this.data=(res as any).resList;
       this.data.forEach((item,index)=>{
         if(item.children&&item.children.length>0){
           item.children.forEach((element:any,num:number)=>{
