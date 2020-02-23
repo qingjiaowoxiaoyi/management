@@ -194,8 +194,8 @@ export default class Params extends Vue {
     })
   }
   // 修改分类api
-  putParams(row?:any){
-    put('http://127.0.0.1:3000/category',row)
+  putParams(row?:any,url?:any){
+    put(url,row)
     .then(res=>{
       this.getParams();
       this.$Message.info((res as any).msg);

@@ -178,20 +178,6 @@ export default class Type extends Vue {
     }).finally(() => {
       loading.finish();
     });
-    // setTimeout(()=>{
-    //   this._id='123';
-    //   this.data = [
-    //     {
-    //       _id:'100',
-    //       specType:'口味',
-    //       // specList:['香草','麻辣']
-    //     },
-    //     {
-    //       _id:'200',
-    //       specType:'包装',
-    //       specList:[{style:'500g',_id:'110'},{style:'250g',_id:'120'}]
-    //     }]
-    //   },50)
   }
   // 新增分类api
   postType(row?:any,url?:any){
