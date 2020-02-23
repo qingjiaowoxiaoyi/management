@@ -124,7 +124,7 @@ export default class Params extends Vue {
                     this.deleteParams('http://127.0.0.1:3000/category/senior',{category:params.row.category})
                     return;
                   }
-                  this.deleteParams('http://127.0.0.1:3000/category',{cateID:params.row.propID})
+                  this.deleteParams('http://127.0.0.1:3000/category',{propID:params.row.propID})
                 }
               }
             },
@@ -174,7 +174,7 @@ export default class Params extends Vue {
           })
         }
       })
-      this.$Message.info((res as any).data.msg);
+      this.$Message.info((res as any).msg);
     })
     .catch(err => {
        this.$Message.error('加载失败');
@@ -188,7 +188,7 @@ export default class Params extends Vue {
     post('http://127.0.0.1:3000/category',row)
     .then(res=>{
       this.getParams();
-      this.$Message.info((res as any).data.msg);
+      this.$Message.info((res as any).msg);
     }).catch(err => {
        this.$Message.error('加载失败');
     })
@@ -198,18 +198,18 @@ export default class Params extends Vue {
     put('http://127.0.0.1:3000/category',row)
     .then(res=>{
       this.getParams();
-      this.$Message.info((res as any).data.msg);
+      this.$Message.info((res as any).msg);
     }).catch(err => {
        this.$Message.error('加载失败');
     })
   }
   // 删除分类api
+  // delete 和 post 、put 的参数不一样，post、put都有三个参数，分别为url、data还有config，而delete只有两个参数，第一个是url，第二个是config，post 和 put 第二个参数是data，所以可以直接在第二个参数的位置写上数据，后台可以访问到，而delete第二个参数是 config ，所以要通过 config 里面的 data 来传参
   deleteParams(url?:any,row?:any){
-    console.log(url,row)
-    deletefn(url,row)
+    deletefn(url,{data:row})
     .then(res=>{
       this.getParams();
-      this.$Message.info((res as any).data.msg);
+      this.$Message.info((res as any).msg);
     }).catch(err => {
        this.$Message.error('加载失败');
     })

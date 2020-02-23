@@ -83,7 +83,7 @@ export default class News extends Vue {
               on: {
                 click: () => {
                   // 删除分类，以id为判断标准，后端接受id查询后删除,再重新请求
-                  this.deleteNews(params.row._id)
+                  this.deleteNews({_id:params.row._id})
                 }
               }
             },
@@ -173,7 +173,7 @@ export default class News extends Vue {
   }
   // 删除商品api
   deleteNews(row?:any){
-    deletefn('http://127.0.0.1:3000/news',row)
+    deletefn('http://127.0.0.1:3000/news',{data:row})
     .then(res=>{
       this.getNews();
     }).catch(err => {

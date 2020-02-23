@@ -1,12 +1,16 @@
 <template>
    <div>
-     <Select v-model="selectParams" style="width:200px;margin-bottom:10px;" @on-change='changeselect'>
+     <!-- <Select v-model="selectParams" style="width:200px;margin-bottom:10px;" @on-change='changeselect'>
         <OptionGroup v-for="(item,index) in selectdata" :label="item.paramsName" :key='index'>
             <Option v-for="(element,num) in item.children" :value="element.paramsName" :key="num">{{ element.paramsName }}</Option>
         </OptionGroup>
-     </Select>
+     </Select> -->
+     <div style="margin-bottom:10px;">
+        <Input v-model="quaryName" placeholder="请输入二级分类名称" style="width:200px;margin-right:10px;"/>
+        <Button type="info" @click="changeselect">搜 索</Button>
+     </div>
      <Card>
-      <Button type="info" style="margin-bottom:10px;" @click="addType">添加分类</Button>
+      <Button type="info" style="margin-bottom:10px;" @click="addType">添加属性</Button>
       <Table row-key="id" :columns="columns" :data="data" stripe border ></Table>
       <div style="margin: 10px;overflow: hidden">
         <div style="float: right;">
@@ -14,7 +18,7 @@
         </div>
       </div>
      </Card>
-     <TypeChange ref="TypeChange" @requestType='requestType'></TypeChange>
+     <TypeChange ref="TypeChange" @putType='putType' @postType='postType'></TypeChange>
      <expandRow ref="expandRow"></expandRow>
    </div>
 </template>
@@ -24,6 +28,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 import { Button,Table,Page,Modal,Card } from 'view-design';
 import expandRow from './component/Expand-row.vue';
 import TypeChange from './model/Type-change.vue';
+import {get,post,put,deletefn} from '@/api/axios';
 @Component({
   components: {
     Button,
@@ -37,8 +42,9 @@ import TypeChange from './model/Type-change.vue';
 })
 
 export default class Type extends Vue {
-  selectParams:string='';// 选择的分类
+  quaryName:string='';// 查询分类名字
   count:Array<any>=[];
+  _id:any='';// 总分类id
   columns: Array<any> = [
     {
       title: '',
@@ -50,8 +56,17 @@ export default class Type extends Vue {
               expandRow, 
               {
                 props: {
-                    count: params.row.attributeContext,
+                    count: params.row.specList,
                     flag:true,
+                    specID:params.row._id
+                },
+                on:{
+                    addSpec:(rowID?:any)=>{
+                      this.postType(rowID,'http://127.0.0.1:3000/category/specification');
+                    },
+                    delSpec:(row?:any)=>{
+                      this.deleteType(row,'http://127.0.0.1:3000/category/specification');
+                    }
                 }
               }
             )
@@ -60,7 +75,7 @@ export default class Type extends Vue {
     },
     {
       title: '属性',
-      key: 'attribute',
+      key: 'specType',
       align: 'center',
     },
     {
@@ -83,7 +98,7 @@ export default class Type extends Vue {
               on: {
                 click: () => {
                   (this.$refs.TypeChange as TypeChange).open();
-                  (this.$refs.TypeChange as TypeChange).setInitType('编辑分类',params.row.attribute);
+                  (this.$refs.TypeChange as TypeChange).setInitType('编辑分类',params.row);
                 }
               }
             },
@@ -104,7 +119,7 @@ export default class Type extends Vue {
               on: {
                 click: () => {
                   // 删除分类，以id为判断标准，后端接受id查询后删除,再重新请求
-                  console.log(params.row)
+                  this.deleteType({specID:params.row._id},'http://127.0.0.1:3000/category/spec')
                 }
               }
             },
@@ -115,99 +130,7 @@ export default class Type extends Vue {
     },
   ];
 
-  data: Array<any> = [
-    {
-      id:'100',
-      attribute:'口味',
-      // attributeContext:['香草','麻辣']
-    },
-    {
-      id:'200',
-      attribute:'包装',
-      attributeContext:['500g','250g']
-    }
-  ]
-
-  selectdata: Array<any> = [
-    {
-      id:'100',
-      paramsName:'蛋糕',
-      isok:true,
-      level:'一级',
-      children:[
-        {
-          id:'101',
-          paramsName:'蒸蛋糕',
-          isok:true,
-          level:'二级',
-        },
-        {
-          id:'102',
-          paramsName:'脱水蛋糕',
-          isok:true,
-          level:'二级',
-        },
-        {
-          id:'103',
-          paramsName:'马卡龙',
-          isok:true,
-          level:'二级',
-        }
-      ]
-    },
-    {
-      id:'200',
-      paramsName:'电脑',
-      isok:true,
-      level:'一级',
-      children:[
-        {
-          id:'201',
-          paramsName:'联想',
-          isok:true,
-          level:'二级',
-        },
-        {
-          id:'202',
-          paramsName:'戴尔',
-          isok:true,
-          level:'二级',
-        },
-        {
-          id:'203',
-          paramsName:'外星人',
-          isok:true,
-          level:'二级',
-        }
-      ]
-    },
-    {
-      id:'300',
-      paramsName:'水果',
-      isok:true,
-      level:'一级',
-      children:[
-        {
-          id:'301',
-          paramsName:'苹果',
-          isok:true,
-          level:'二级',
-        },
-        {
-          id:'302',
-          paramsName:'香蕉',
-          isok:true,
-          level:'二级',
-        },
-        {
-          id:'303',
-          paramsName:'凤梨',
-          isok:true,
-          level:'二级',
-        }
-      ]
-    }
-  ]
+  data: Array<any> = []
 
   // 要查询数据
   queryData: any = {
@@ -218,28 +141,82 @@ export default class Type extends Vue {
   // 添加商品分类
   addType(){
     (this.$refs.TypeChange as TypeChange).open();
-    (this.$refs.TypeChange as TypeChange).setInitType('增加分类');
+    (this.$refs.TypeChange as TypeChange).setInitType('增加分类',this._id);
   }
 
   // 改变了选择类型
   changeselect(){
-    console.log(this.selectParams)
+    this.getType(this.quaryName);
   }
 
   // 分页请求
   total:number=0;//总页数
   onPageChange(pageInfo: number) {
     this.queryData.page = pageInfo;
-    this.requestType();
+    this.getType();
   }
   onPageSizeChange(newPageSize: number) {
     this.queryData.pageSize = newPageSize;
-    this.requestType();
+    this.getType();
   }
 
-  // api
-  requestType(){
-    console.log('ok')
+  // 查询分类api
+  getType(row?:any){
+    const loading = this.$Loading;
+    loading.start();
+    post('http://127.0.0.1:3000/category/getspec',row)
+    .then(res=>{
+      this.data=(res as any).doc.specs;
+      this._id=(res as any).doc._id;
+      this.$Message.info((res as any).msg);
+    }).catch(err => {
+       this.$Message.error('加载失败');
+    }).finally(() => {
+      loading.finish();
+    });
+    // setTimeout(()=>{
+    //   this._id='123';
+    //   this.data = [
+    //     {
+    //       _id:'100',
+    //       specType:'口味',
+    //       // specList:['香草','麻辣']
+    //     },
+    //     {
+    //       _id:'200',
+    //       specType:'包装',
+    //       specList:[{style:'500g',_id:'110'},{style:'250g',_id:'120'}]
+    //     }]
+    //   },50)
+  }
+  // 新增分类api
+  postType(row?:any,url?:any){
+    post(url,row)
+    .then(res=>{
+      this.$Message.info((res as any).msg);
+    }).catch(err => {
+       this.$Message.error('加载失败');
+    })
+  }
+  // 修改分类api
+  putType(row?:any,url?:any){
+    put(url,row)
+    .then(res=>{
+      this.getType(this.quaryName);
+      this.$Message.info((res as any).msg);
+    }).catch(err => {
+       this.$Message.error('加载失败');
+    })
+  }
+  // 删除分类api
+  deleteType(row?:any,url?:any){
+    deletefn(url,{data:row})
+    .then(res=>{
+      this.getType(this.quaryName);
+      this.$Message.info((res as any).msg);
+    }).catch(err => {
+       this.$Message.error('加载失败');
+    })
   }
 }
 </script>
