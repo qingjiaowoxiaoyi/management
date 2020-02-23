@@ -63,7 +63,7 @@ export default class ParamsEdit extends Vue {
        return;
     }
     if(this.judge){
-      this.requestParams({old:this.old,new:this.row.category});
+      this.requestParams({old:this.old,newName:this.row.category});
       return;
     }
     this.requestParams(
