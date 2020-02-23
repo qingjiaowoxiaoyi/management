@@ -28,7 +28,7 @@ export default class News extends Vue {
   columns: Array<any> = [
     {
       title: '序号',
-      key: '_id',
+      key: 'id',
       align: 'center',
       width:50,
     },
@@ -145,6 +145,9 @@ export default class News extends Vue {
     get('http://127.0.0.1:3000/news/getnews')
     .then(res=>{
       this.data=(res as any).doc;
+      this.data.forEach((item,index)=>{
+        item.id=index+1;
+      })
     })
     .catch(err => {
        this.$Message.error('加载失败'+err);
