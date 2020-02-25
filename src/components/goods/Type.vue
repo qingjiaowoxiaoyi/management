@@ -1,14 +1,14 @@
 <template>
    <div>
-     <!-- <Select v-model="selectParams" style="width:200px;margin-bottom:10px;" @on-change='changeselect'>
-        <OptionGroup v-for="(item,index) in selectdata" :label="item.paramsName" :key='index'>
-            <Option v-for="(element,num) in item.children" :value="element.paramsName" :key="num">{{ element.paramsName }}</Option>
+     <Select v-model="quaryName" style="width:200px;margin-bottom:10px;" @on-change='changeselect'>
+        <OptionGroup :label="item.category" v-for="(item,index) in selectData" :key="index">
+            <Option v-for="(element,num) in item.children" :value="element.propID" :key="num">{{ element.property }}</Option>
         </OptionGroup>
-     </Select> -->
-     <div style="margin-bottom:10px;">
+     </Select>
+     <!-- <div style="margin-bottom:10px;">
         <Input v-model="quaryName" placeholder="请输入二级分类名称" style="width:200px;margin-right:10px;"/>
         <Button type="info" @click="changeselect">搜 索</Button>
-     </div>
+     </div> -->
      <Card>
       <Button type="info" style="margin-bottom:10px;" @click="addType">添加属性</Button>
       <Table row-key="id" :columns="columns" :data="data" stripe border ></Table>
@@ -158,6 +158,30 @@ export default class Type extends Vue {
   onPageSizeChange(newPageSize: number) {
     this.queryData.pageSize = newPageSize;
     this.getType();
+  }
+
+  // 获取分类api
+  selectData:Array<any>=[];
+  getParams(){
+    const loading = this.$Loading;
+    get('http://127.0.0.1:3000/category')
+    .then(res=>{
+      this.selectData=(res as any).resList;
+      this.data.forEach((item,index)=>{
+        if(item.children&&item.children.length>0){
+          item.children.forEach((element:any,num:number)=>{
+            element.category = element.property;
+          })
+        }
+      })
+      this.$Message.info((res as any).msg);
+    })
+    .catch(err => {
+       this.$Message.error('加载失败');
+    })
+  }
+  created() {
+   this.getParams(); 
   }
 
   // 查询分类api
