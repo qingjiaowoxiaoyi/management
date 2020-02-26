@@ -82,8 +82,7 @@ export default class Goods extends Vue {
       align: 'center',
       minWidth:80,
       render:(h:any,params: any)=> {
-        return h('div', [
-          h(
+        return h(
             'Button',
             {
               props: {
@@ -98,17 +97,15 @@ export default class Goods extends Vue {
               on: {
                 click: () => {
                   (this.$refs.GoodsChange as any).open();
-                  (this.$refs.GoodsChange as any).setInitParams(params.column.title,this.Params,params.row);
+                  (this.$refs.GoodsChange as any).setInitParams(params.column.title,params.row);
                 }
               }
             },
             '编辑'
           )
-        ])
       }
     }
   ];
-  Params:any=[]
   data: Array<any> = [];
 
   // 要查询数据
@@ -121,36 +118,24 @@ export default class Goods extends Vue {
   // 查询
   queryname(){
     this.queryData.page=1;
-    this.getParams();
+    this.getGoods();
   }
 
   // 分页请求
   total:number=0;//总页数
   onPageChange(pageInfo: number) {
     this.queryData.page = pageInfo;
-    this.getParams();
+    this.getGoods();
   }
   onPageSizeChange(newPageSize: number) {
     this.queryData.pageSize = newPageSize;
-    this.getParams();
+    this.getGoods();
   }
 
   // 添加商品
   addgoods(){
     (this.$refs.GoodsChange as any).open();
-    (this.$refs.GoodsChange as any).setInitParams('添加商品',this.Params);
-  }
-
-  // 获取参数选择
-  getParams(){
-    get('http://127.0.0.1:3000/category')
-    .then(res=>{
-      this.Params=(res as any).resList;
-      this.$Message.info((res as any).msg);
-    })
-    .catch(err => {
-       this.$Message.error('加载失败');
-    })
+    (this.$refs.GoodsChange as any).setInitParams('添加商品');
   }
 
   // 获取商品信息
@@ -159,7 +144,7 @@ export default class Goods extends Vue {
     loading.start();
     get('http://127.0.0.1:3000/goods')
     .then(res=>{
-      this.data=(res as any).resList;
+      this.data=(res as any).data;
       this.$Message.info((res as any).msg);
     })
     .catch(err => {
@@ -193,7 +178,6 @@ export default class Goods extends Vue {
   }
 
   created() {
-   this.getParams();
    this.getGoods();
   }
 }

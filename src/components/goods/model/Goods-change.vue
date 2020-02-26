@@ -36,7 +36,7 @@
 
         <template v-if="row.junior">
             <FormItem label="商品参数" prop="type">
-                <Select v-model="row.style" multiple @on-change='Select'>
+                <Select v-model="row.styleID" multiple @on-change='Select'>
                     <OptionGroup :label="item.specName" v-for="(item,index) in selectedData" :key="index">
                         <Option v-for="(element,num) in item.specList" :value="element._id" :key="num">{{ element.style }}</Option>
                     </OptionGroup>
@@ -95,9 +95,8 @@ export default class ChangeGoods extends Vue {
   open(){
     this.flag=true;
   }
-  setInitParams(title:string,Params?:any,row?:any){
+  setInitParams(title:string,row?:any){
     this.title=title;
-    this.Params=Params;
     if(row){
         this.row=row;
         this.homeimg=[{'url':row.homeimg}];
@@ -146,12 +145,12 @@ export default class ChangeGoods extends Vue {
   }
 
   Select(value:any){
-      this.row.style=value;
+      this.row.styleID=value;
   }
 
   async requestSelect(value:any){
       this.row.junior=value;
-      this.row.style=[];
+      this.row.styleID=[];
       
     //   await this.$nextTick();
 
@@ -177,6 +176,21 @@ export default class ChangeGoods extends Vue {
   }
 
   @Emit('postGoods') private postGoods(row:any): void {
+  }
+
+  // 获取参数选择
+  getParams(){
+    get('http://127.0.0.1:3000/category')
+    .then(res=>{
+      this.Params=(res as any).resList;
+      this.$Message.info((res as any).msg);
+    })
+    .catch(err => {
+       this.$Message.error('加载失败');
+    })
+  }
+ created() {
+   this.getParams();
   }
 }
 </script>
