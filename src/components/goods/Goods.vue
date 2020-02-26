@@ -97,7 +97,7 @@ export default class Goods extends Vue {
               on: {
                 click: () => {
                   (this.$refs.GoodsChange as any).open();
-                  (this.$refs.GoodsChange as any).setInitParams(params.column.title,params.row);
+                  (this.$refs.GoodsChange as any).setInitParams(params.column.title,this.Params,params.row);
                 }
               }
             },
@@ -107,6 +107,34 @@ export default class Goods extends Vue {
       }
     }
   ];
+  Params:any=[
+        {
+          category:'电脑',
+          children:[
+            {
+              propID:'110',
+              property:'联想',
+            },
+            {
+              propID:'111',
+              property:'华硕',
+            }
+          ]
+        },
+        {
+          category:'蛋糕',
+          children:[
+            {
+              propID:'112',
+              property:'蒸蛋糕',
+            },
+            {
+              propID:'113',
+              property:'马卡龙',
+            }
+          ]
+        }
+      ]
   data: Array<any> = [
     {
       name:'联想笔记本',
@@ -120,7 +148,37 @@ export default class Goods extends Vue {
       evaluateNum:8,
       homeimg:require('@/assets/photo-1542273917363-3b1817f69a2d.jpg'),
       goodsimg:'https://images.pexels.com/photos/2929290/pexels-photo-2929290.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
-      details:'品牌名称：宁美国度 产品参数：产品名称：宁美国度 Intel B360 i7-...品牌: 宁美国度内存容量: 8GB 16GB硬盘容量: 配置一 配置二 配置三 配置四 配置五电源功率: 400W显存容量: 5GB主板结构: M-ATX光驱类型: 无光驱机箱类型: 中塔生产企业: 宁美国度电源80 PLUS认证: 不支持显卡系列: GTX 1060散热方式: 水冷硬盘类型: 固态硬盘(SSD)CPU系列: Intel/英特尔酷睿i7主板芯片组类型: Intel B360保修期: 36个月CPU型号: i7-8700'
+      details:'品牌名称：宁美国度 产品参数：产品名称：宁美国度 Intel B360 i7-...品牌: 宁美国度内存容量: 8GB 16GB硬盘容量: 配置一 配置二 配置三 配置四 配置五电源功率: 400W显存容量: 5GB主板结构: M-ATX光驱类型: 无光驱机箱类型: 中塔生产企业: 宁美国度电源80 PLUS认证: 不支持显卡系列: GTX 1060散热方式: 水冷硬盘类型: 固态硬盘(SSD)CPU系列: Intel/英特尔酷睿i7主板芯片组类型: Intel B360保修期: 36个月CPU型号: i7-8700',
+      userType:'110',
+      styleList:[
+          {
+            specName:'固态内存',
+            specList:[
+              {
+                styleId:'100',
+                style:'512g'
+              },
+              {
+                styleId:'101',
+                style:'256G'
+              }
+            ]
+          },
+          {
+            specName:'处理器',
+            specList:[
+              {
+                styleId:'102',
+                style:'i7八代'
+              },
+              {
+                styleId:'103',
+                style:'i9八代'
+              }
+            ]
+          }
+      ],
+      style:['100','102']
     },
     {
       name:'联想笔记本',
@@ -134,7 +192,37 @@ export default class Goods extends Vue {
       evaluateNum:8,
       homeimg:'https://images.pexels.com/photos/1738976/pexels-photo-1738976.jpeg?cs=srgb&dl=woman-sitting-on-dock-1738976.jpg&fm=jpg',
       goodsimg:'https://images.pexels.com/photos/3646206/pexels-photo-3646206.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
-      details:'品牌名称：宁美国度 产品参数：产品名称：宁美国度 Intel B360 i7-...品牌: 宁美国度内存容量: 8GB 16GB硬盘容量: 配置一 配置二 配置三 配置四 配置五电源功率: 400W显存容量: 5GB主板结构: M-ATX光驱类型: 无光驱机箱类型: 中塔生产企业: 宁美国度电源80 PLUS认证: 不支持显卡系列: GTX 1060散热方式: 水冷硬盘类型: 固态硬盘(SSD)CPU系列: Intel/英特尔酷睿i7主板芯片组类型: Intel B360保修期: 36个月CPU型号: i7-8700'
+      details:'品牌名称：宁美国度 产品参数：产品名称：宁美国度 Intel B360 i7-...品牌: 宁美国度内存容量: 8GB 16GB硬盘容量: 配置一 配置二 配置三 配置四 配置五电源功率: 400W显存容量: 5GB主板结构: M-ATX光驱类型: 无光驱机箱类型: 中塔生产企业: 宁美国度电源80 PLUS认证: 不支持显卡系列: GTX 1060散热方式: 水冷硬盘类型: 固态硬盘(SSD)CPU系列: Intel/英特尔酷睿i7主板芯片组类型: Intel B360保修期: 36个月CPU型号: i7-8700',
+      userType:'111',
+      styleList:[
+        {
+          specName:'固态内存',
+          specList:[
+              {
+                styleId:'104',
+                style:'64G'
+              },
+              {
+                styleId:'105',
+                style:'256G'
+              }
+            ]
+        },
+        {
+          specName:'处理器',
+          specList:[
+              {
+                styleId:'107',
+                style:'i7八代'
+              },
+              {
+                styleId:'108',
+                style:'i9八代'
+              }
+            ]
+        }
+      ],
+      style:["104"]
     },
     {
       name:'联想笔记本',
@@ -148,7 +236,37 @@ export default class Goods extends Vue {
       evaluateNum:8,
       homeimg:'https://images.pexels.com/photos/1738976/pexels-photo-1738976.jpeg?cs=srgb&dl=woman-sitting-on-dock-1738976.jpg&fm=jpg',
       goodsimg:'https://images.pexels.com/photos/3617460/pexels-photo-3617460.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
-      details:'品牌名称：宁美国度 产品参数：产品名称：宁美国度 Intel B360 i7-...品牌: 宁美国度内存容量: 8GB 16GB硬盘容量: 配置一 配置二 配置三 配置四 配置五电源功率: 400W显存容量: 5GB主板结构: M-ATX光驱类型: 无光驱机箱类型: 中塔生产企业: 宁美国度电源80 PLUS认证: 不支持显卡系列: GTX 1060散热方式: 水冷硬盘类型: 固态硬盘(SSD)CPU系列: Intel/英特尔酷睿i7主板芯片组类型: Intel B360保修期: 36个月CPU型号: i7-8700'
+      details:'品牌名称：宁美国度 产品参数：产品名称：宁美国度 Intel B360 i7-...品牌: 宁美国度内存容量: 8GB 16GB硬盘容量: 配置一 配置二 配置三 配置四 配置五电源功率: 400W显存容量: 5GB主板结构: M-ATX光驱类型: 无光驱机箱类型: 中塔生产企业: 宁美国度电源80 PLUS认证: 不支持显卡系列: GTX 1060散热方式: 水冷硬盘类型: 固态硬盘(SSD)CPU系列: Intel/英特尔酷睿i7主板芯片组类型: Intel B360保修期: 36个月CPU型号: i7-8700',
+      userType:'112',
+      styleList: [
+        {
+            specName:'口味',
+            specList:[
+                {
+                  styleId:'109',
+                  style:'香草味'
+                },
+                {
+                  styleId:'110',
+                  style:'奶香味'
+                }
+            ]
+        },
+        {
+            specName:'大小',
+            specList:[
+                {
+                styleId:'112',
+                style:'50g'
+                },
+                {
+                styleId:'113',
+                style:'100g'
+                }
+            ]
+        }
+      ],
+      style:['110','113']
     },
   ];
 
@@ -189,7 +307,7 @@ export default class Goods extends Vue {
   // 添加商品
   addgoods(){
     (this.$refs.GoodsChange as any).open();
-    (this.$refs.GoodsChange as any).setInitParams('添加商品');
+    (this.$refs.GoodsChange as any).setInitParams('添加商品',this.Params);
   }
 
   created() {

@@ -1,7 +1,7 @@
 <template>
   <div>
     <Modal v-model="flag" :title="title" @on-ok='saveOrder'>
-      <Form :model="row" :rules="rules" :label-width="100" ref="dataForm" class="user-from">
+      <Form :model="row" :rules="rules" :label-width="100" ref="dataForm" class="user-from" label-colon>
         <FormItem label="商品名称" prop="name">
             <Input placeholder="商品名称" :maxlength="30" v-model="row.name"/>
         </FormItem>
@@ -26,25 +26,37 @@
             满<Input :maxlength="5" v-model="row.couponfirst" style="width:50px;"/>减<Input :maxlength="5" v-model="row.couponsecond" style="width:50px;"/>
         </FormItem>
 
-        <FormItem label="商品参数" prop="type">
-            <!-- <Select v-model="row.userType">
-                <Option>
-                    512G固态、i7八代处理器
-                </Option>
-            </Select> -->
-            512G固态、i7八代处理器
+        <FormItem label="商品分类" prop="type">
+            <Select v-model="row.userType" @on-change='requestSelect'>
+                <OptionGroup :label="item.category" v-for="(item,index) in Params" :key="index">
+                    <Option v-for="(element,num) in item.children" :value="element.propID" :key="num">{{ element.property }}</Option>
+                </OptionGroup>
+            </Select>
         </FormItem>
 
+        <template v-if="row.userType">
+            <FormItem label="商品参数" prop="type">
+                <Select v-model="row.style" multiple @on-change='Select'>
+                    <OptionGroup :label="item.specName" v-for="(item,index) in selectedData" :key="index">
+                        <Option v-for="(element,num) in item.specList" :value="element.styleId" :key="num">{{ element.style }}</Option>
+                    </OptionGroup>
+                </Select>
+            </FormItem>
+        </template>
+
         <FormItem label="销售量" prop="sellNum">
-            <Input placeholder="销售量" v-model="row.sellNum" type="text"/>
+            <!-- <Input placeholder="销售量" v-model="row.sellNum" type="text"/> -->
+            {{row.sellNum}}
         </FormItem>
 
         <FormItem label="收藏量" prop="collectionNum">
-            <Input placeholder="collectionNum" v-model="row.collectionNum" type="text"/>
+            <!-- <Input placeholder="collectionNum" v-model="row.collectionNum" type="text"/> -->
+            {{row.collectionNum}}
         </FormItem>
 
         <FormItem label="评价量" prop="evaluateNum">
-            <Input placeholder="评价量" v-model="row.evaluateNum" type="text"/>
+            <!-- <Input placeholder="评价量" v-model="row.evaluateNum" type="text"/> -->
+            {{row.evaluateNum}}
         </FormItem>
 
         <FormItem label="详情" prop="details">
@@ -75,20 +87,25 @@ export default class ChangeGoods extends Vue {
   flag:boolean=false;
   title:string='';
   row?:any={};
+  Params:any=[];//商品分类数据
+  selectedData:Array<any>=[];//参数分类数据
 
   open(){
     this.flag=true;
   }
-  setInitParams(title:string,row?:any){
+  setInitParams(title:string,Params?:any,row?:any){
     this.title=title;
+    this.Params=Params;
     if(row){
         this.row=row;
         this.homeimg=[{'url':row.homeimg}];
         this.goodsimg=[{'url':row.goodsimg}];
+        this.selectedData=row.styleList;
         return;
     }
     this.row={};
     this.homeimg=this.goodsimg=[];
+    this.row.sellNum=this.row.collectionNum=this.row.evaluateNum=0;
   }
 
   // 保存订单信息
@@ -119,6 +136,112 @@ export default class ChangeGoods extends Vue {
               trigger: "blur"
           }
       ]
+  }
+
+  Select(value:any){
+      console.log(value);
+  }
+
+  async requestSelect(value:any){
+      this.row.style=[]
+      setTimeout(()=>{
+          switch(value){
+              case '110':
+                  this.selectedData=
+                  [
+                    {
+                      specName:'固态内存',
+                      specList:[
+                        {
+                          styleId:'100',
+                          style:'512g'
+                        },
+                        {
+                          styleId:'101',
+                          style:'256G'
+                        }
+                      ]
+                    },
+                    {
+                      specName:'处理器',
+                      specList:[
+                        {
+                          styleId:'102',
+                          style:'i7八代'
+                        },
+                        {
+                          styleId:'103',
+                          style:'i9八代'
+                        }
+                      ]
+                    }
+                  ]
+                  break;
+              case '111':
+                  this.selectedData=
+                  [
+                    {
+                    specName:'固态内存',
+                    specList:[
+                        {
+                        styleId:'104',
+                        style:'64G'
+                        },
+                        {
+                        styleId:'105',
+                        style:'256G'
+                        }
+                    ]
+                    },
+                    {
+                    specName:'处理器',
+                    specList:[
+                        {
+                        styleId:'107',
+                        style:'i7八代'
+                        },
+                        {
+                        styleId:'108',
+                        style:'i9八代'
+                        }
+                    ]
+                    }
+                  ]
+                  break;
+              case '112':
+                  this.selectedData=
+                  [
+                    {
+                        specName:'口味',
+                        specList:[
+                            {
+                            styleId:'109',
+                            style:'香草味'
+                            },
+                            {
+                            styleId:'110',
+                            style:'奶香味'
+                            }
+                        ]
+                    },
+                    {
+                        specName:'大小',
+                        specList:[
+                            {
+                            styleId:'112',
+                            style:'50g'
+                            },
+                            {
+                            styleId:'113',
+                            style:'100g'
+                            }
+                        ]
+                    }
+                  ]
+                  break;
+          } 
+      },50)
+    //   await this.$nextTick();
   }
 }
 </script>
