@@ -184,7 +184,7 @@ export default class Type extends Vue {
    this.getParams(); 
   }
 
-  // 查询分类api
+  // 查询属性api
   getType(row?:any){
     const loading = this.$Loading;
     loading.start();
@@ -203,7 +203,7 @@ export default class Type extends Vue {
       loading.finish();
     });
   }
-  // 新增分类api
+  // 新增属性api
   postType(row?:any,url?:any){
     post(url,row)
     .then(res=>{
@@ -212,7 +212,7 @@ export default class Type extends Vue {
        this.$Message.error('加载失败');
     })
   }
-  // 修改分类api
+  // 修改属性api
   putType(row?:any,url?:any){
     put(url,row)
     .then(res=>{
@@ -222,7 +222,7 @@ export default class Type extends Vue {
        this.$Message.error('加载失败');
     })
   }
-  // 删除分类api
+  // 删除属性api
   deleteType(row?:any,url?:any){
     deletefn(url,{data:row})
     .then(res=>{

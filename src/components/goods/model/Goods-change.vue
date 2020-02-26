@@ -2,8 +2,8 @@
   <div>
     <Modal v-model="flag" :title="title" @on-ok='saveOrder'>
       <Form :model="row" :rules="rules" :label-width="100" ref="dataForm" class="user-from" label-colon>
-        <FormItem label="商品名称" prop="name">
-            <Input placeholder="商品名称" :maxlength="30" v-model="row.name"/>
+        <FormItem label="商品名称" prop="itemName">
+            <Input placeholder="商品名称" :maxlength="30" v-model="row.itemName"/>
         </FormItem>
         
         <FormItem label="首页图片" prop="game">
@@ -18,49 +18,49 @@
             </div>
         </FormItem>
 
-        <FormItem label="库存数量" prop="storeNum">
-            <Input v-model="row.storeNum" placeholder="库存数量"/>
+        <FormItem label="库存数量" prop="stock">
+            <Input v-model="row.stock" placeholder="库存数量"/>
         </FormItem>
 
-        <FormItem label="商品优惠" prop="coupon">
+        <!-- <FormItem label="商品优惠" prop="coupon">
             满<Input :maxlength="5" v-model="row.couponfirst" style="width:50px;"/>减<Input :maxlength="5" v-model="row.couponsecond" style="width:50px;"/>
-        </FormItem>
+        </FormItem> -->
 
         <FormItem label="商品分类" prop="type">
-            <Select v-model="row.userType" @on-change='requestSelect'>
+            <Select v-model="row.junior" @on-change='requestSelect'>
                 <OptionGroup :label="item.category" v-for="(item,index) in Params" :key="index">
                     <Option v-for="(element,num) in item.children" :value="element.propID" :key="num">{{ element.property }}</Option>
                 </OptionGroup>
             </Select>
         </FormItem>
 
-        <template v-if="row.userType">
+        <template v-if="row.junior">
             <FormItem label="商品参数" prop="type">
                 <Select v-model="row.style" multiple @on-change='Select'>
                     <OptionGroup :label="item.specName" v-for="(item,index) in selectedData" :key="index">
-                        <Option v-for="(element,num) in item.specList" :value="element.styleId" :key="num">{{ element.style }}</Option>
+                        <Option v-for="(element,num) in item.specList" :value="element._id" :key="num">{{ element.style }}</Option>
                     </OptionGroup>
                 </Select>
             </FormItem>
         </template>
 
-        <FormItem label="销售量" prop="sellNum">
-            <!-- <Input placeholder="销售量" v-model="row.sellNum" type="text"/> -->
-            {{row.sellNum}}
+        <FormItem label="销售量" prop="salesCount">
+            <!-- <Input placeholder="销售量" v-model="row.salesCount" type="text"/> -->
+            {{row.salesCount}}
         </FormItem>
 
-        <FormItem label="收藏量" prop="collectionNum">
-            <!-- <Input placeholder="collectionNum" v-model="row.collectionNum" type="text"/> -->
-            {{row.collectionNum}}
+        <FormItem label="收藏量" prop="collectCount">
+            <!-- <Input placeholder="collectCount" v-model="row.collectCount" type="text"/> -->
+            {{row.collectCount}}
         </FormItem>
 
-        <FormItem label="评价量" prop="evaluateNum">
-            <!-- <Input placeholder="评价量" v-model="row.evaluateNum" type="text"/> -->
-            {{row.evaluateNum}}
+        <FormItem label="评价量" prop="rateCount">
+            <!-- <Input placeholder="评价量" v-model="row.rateCount" type="text"/> -->
+            {{row.rateCount}}
         </FormItem>
 
-        <FormItem label="详情" prop="details">
-            <Input v-model="row.details" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="请输入详情" />
+        <FormItem label="详情" prop="itemDetail">
+            <Input v-model="row.itemDetail" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="请输入详情" />
         </FormItem>
       </Form>
     </Modal>
@@ -68,10 +68,11 @@
 </template>
 
 <script lang='ts'>
-import { Vue, Component, Prop } from 'vue-property-decorator';
+import { Vue, Component, Prop, Emit } from 'vue-property-decorator';
 import { Modal,Card } from 'view-design';
 import Viewer from "v-viewer";
 import UploadImage from '../component/Upload-image.vue';
+import {get,post,put,deletefn} from '@/api/axios';
 @Component({
     name: 'ChangeGoods',
     components: {
@@ -87,6 +88,7 @@ export default class ChangeGoods extends Vue {
   flag:boolean=false;
   title:string='';
   row?:any={};
+  judge:boolean=false;//编辑为true 新增为false
   Params:any=[];//商品分类数据
   selectedData:Array<any>=[];//参数分类数据
 
@@ -101,21 +103,26 @@ export default class ChangeGoods extends Vue {
         this.homeimg=[{'url':row.homeimg}];
         this.goodsimg=[{'url':row.goodsimg}];
         this.selectedData=row.styleList;
+        this.judge=true;
         return;
     }
     this.row={};
     this.homeimg=this.goodsimg=[];
-    this.row.sellNum=this.row.collectionNum=this.row.evaluateNum=0;
+    this.row.salesCount=this.row.collectCount=this.row.rateCount=0;
+    this.judge=false;
   }
 
   // 保存订单信息
   saveOrder(){
-    this.updateadd();
-  }
-
-  // 添加api
-  updateadd(){
-      
+    if(this.judge){
+        // 修改
+        this.putGoods(this.row)
+        this.flag=false;
+        return;
+      }
+      // 新增
+      this.postGoods(this.row);
+      this.flag=false;
   }
 
   // 输入控件数据约束
@@ -139,109 +146,37 @@ export default class ChangeGoods extends Vue {
   }
 
   Select(value:any){
-      console.log(value);
+      this.row.style=value;
   }
 
   async requestSelect(value:any){
-      this.row.style=[]
-      setTimeout(()=>{
-          switch(value){
-              case '110':
-                  this.selectedData=
-                  [
-                    {
-                      specName:'固态内存',
-                      specList:[
-                        {
-                          styleId:'100',
-                          style:'512g'
-                        },
-                        {
-                          styleId:'101',
-                          style:'256G'
-                        }
-                      ]
-                    },
-                    {
-                      specName:'处理器',
-                      specList:[
-                        {
-                          styleId:'102',
-                          style:'i7八代'
-                        },
-                        {
-                          styleId:'103',
-                          style:'i9八代'
-                        }
-                      ]
-                    }
-                  ]
-                  break;
-              case '111':
-                  this.selectedData=
-                  [
-                    {
-                    specName:'固态内存',
-                    specList:[
-                        {
-                        styleId:'104',
-                        style:'64G'
-                        },
-                        {
-                        styleId:'105',
-                        style:'256G'
-                        }
-                    ]
-                    },
-                    {
-                    specName:'处理器',
-                    specList:[
-                        {
-                        styleId:'107',
-                        style:'i7八代'
-                        },
-                        {
-                        styleId:'108',
-                        style:'i9八代'
-                        }
-                    ]
-                    }
-                  ]
-                  break;
-              case '112':
-                  this.selectedData=
-                  [
-                    {
-                        specName:'口味',
-                        specList:[
-                            {
-                            styleId:'109',
-                            style:'香草味'
-                            },
-                            {
-                            styleId:'110',
-                            style:'奶香味'
-                            }
-                        ]
-                    },
-                    {
-                        specName:'大小',
-                        specList:[
-                            {
-                            styleId:'112',
-                            style:'50g'
-                            },
-                            {
-                            styleId:'113',
-                            style:'100g'
-                            }
-                        ]
-                    }
-                  ]
-                  break;
-          } 
-      },50)
+      this.row.junior=value;
+      this.row.style=[];
+      
     //   await this.$nextTick();
+
+    // 查询属性api
+    const loading = this.$Loading;
+    loading.start();
+    post('http://127.0.0.1:3000/category/getspec',{property:value})
+    .then(res=>{
+        if((res as any).code === '200'){
+            this.selectedData = (res as any).doc.specs;
+            this.$Message.info((res as any).msg);
+        } else {
+            this.$Message.error((res as any).msg);
+        }
+    }).catch(err => {
+       this.$Message.error('加载失败');
+    }).finally(() => {
+      loading.finish();
+    });
+  }
+
+  @Emit('putGoods') private putGoods(row:any): void {
+  }
+
+  @Emit('postGoods') private postGoods(row:any): void {
   }
 }
 </script>
