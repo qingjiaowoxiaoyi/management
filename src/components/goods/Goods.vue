@@ -47,12 +47,12 @@ export default class Goods extends Vue {
       align: 'center',
       minWidth:50,
     },
-    // {
-    //   title: '优惠券',
-    //   key: 'coupon',
-    //   align: 'center',
-    //   minWidth:50,
-    // },
+    {
+      title: '价格',
+      key: 'price',
+      align: 'center',
+      minWidth:50,
+    },
     {
       title: '商品参数',
       key: 'type',
@@ -83,25 +83,49 @@ export default class Goods extends Vue {
       minWidth:80,
       render:(h:any,params: any)=> {
         return h(
-            'Button',
-            {
-              props: {
-                type: 'info',
-                size: 'small',
-                icon: 'ios-create'
-              },
-              style: {
-                marginRight: '5px',
-                fontSize: '12px'
-              },
-              on: {
-                click: () => {
-                  (this.$refs.GoodsChange as any).open();
-                  (this.$refs.GoodsChange as any).setInitParams(params.column.title,params.row);
-                }
-              }
-            },
-            '编辑'
+            'div',[
+              h(
+                'Button',
+                {
+                  props: {
+                    type: 'info',
+                    size: 'small',
+                    icon: 'ios-create'
+                  },
+                  style: {
+                    marginRight: '5px',
+                    fontSize: '12px'
+                  },
+                  on: {
+                    click: () => {
+                      (this.$refs.GoodsChange as any).open();
+                      (this.$refs.GoodsChange as any).setInitParams(params.column.title,params.row);
+                    }
+                  }
+                },
+                '编辑'
+              ),
+              h(
+                'Button',
+                {
+                  props: {
+                    type: 'error',
+                    size: 'small',
+                    icon: 'ios-trash-outline'
+                  },
+                  style: {
+                    marginRight: '5px',
+                    fontSize: '12px'
+                  },
+                  on: {
+                    click: () => {
+                      this.deleteGoods(params.row.id)
+                    }
+                  }
+                },
+                '删除'
+              )
+            ]
           )
       }
     }
@@ -169,6 +193,18 @@ export default class Goods extends Vue {
   // 新增商品信息
   postGoods(row?:any){
     post('http://127.0.0.1:3000/goods',row)
+    .then(res=>{
+      this.getGoods();
+      this.$Message.info((res as any).msg);
+    }).catch(err => {
+       this.$Message.error('加载失败');
+    })
+  }
+
+  // 删除商品信息
+  // delete 和 post 、put 的参数不一样，post、put都有三个参数，分别为url、data还有config，而delete只有两个参数，第一个是url，第二个是config，post 和 put 第二个参数是data，所以可以直接在第二个参数的位置写上数据，后台可以访问到，而delete第二个参数是 config ，所以要通过 config 里面的 data 来传参
+  deleteGoods(row?:any){
+    deletefn('http://127.0.0.1:3000/goods',{data:row})
     .then(res=>{
       this.getGoods();
       this.$Message.info((res as any).msg);

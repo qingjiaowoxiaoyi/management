@@ -43,6 +43,10 @@
                 </Select>
             </FormItem>
         </template>
+        
+        <FormItem label="商品价格" prop="price">
+            <Input placeholder="价格" v-model="row.price" type="text"/>
+        </FormItem>
 
         <FormItem label="销售量" prop="salesCount">
             <!-- <Input placeholder="销售量" v-model="row.salesCount" type="text"/> -->
