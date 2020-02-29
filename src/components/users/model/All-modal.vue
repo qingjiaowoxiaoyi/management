@@ -12,9 +12,9 @@
       <div v-if="order" >
         <div v-for="(item,index) in row" :key='index' style="margin-bottom:10px;">
           <Card>
-            {{item.orderName}}
+            {{item.itemName}}
             <div style="float:right;">
-              <RadioGroup v-model="item.orderType" type="button" size='small'>
+              <RadioGroup v-model="item.itemStatus" type="button" size='small'>
                 <Radio label="到货"></Radio>
                 <Radio label="未到货"></Radio>
                 <Radio label="已退款"></Radio>

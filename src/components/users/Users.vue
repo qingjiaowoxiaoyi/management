@@ -16,6 +16,7 @@
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import { Table,Button,Page } from 'view-design';
 import AllModal from './model/All-modal.vue';
+import {get,post,put,deletefn} from '@/api/axios';
 @Component({
   components: {
     Page,
@@ -35,13 +36,13 @@ export default class Users extends Vue {
     },
     {
       title: '昵称',
-      key: 'nickname',
+      key: 'nickName',
       align: 'center',
       minWidth:50,
     },
     {
       title: '姓名',
-      key: 'name',
+      key: 'fallName',
       align: 'center',
       minWidth:50,
     },
@@ -53,13 +54,13 @@ export default class Users extends Vue {
     },
     {
       title: '生日',
-      key: 'birthday',
+      key: 'birth',
       align: 'center',
       minWidth:80,
     },
     {
       title: '电话号码',
-      key: 'phoneNumber',
+      key: 'phoneNum',
       align: 'center',
       minWidth:85,
     },
@@ -122,7 +123,7 @@ export default class Users extends Vue {
                 click: () => {
                   // (this as tableComponent).followData(params.row);
                   (this.$refs.AllModal as any).open();
-                  (this.$refs.AllModal as any).setInitParams(params.row.order,params.column.title,true);
+                  (this.$refs.AllModal as any).setInitParams(params.row.orderList,params.column.title,true);
                 }
               }
             },
@@ -153,7 +154,7 @@ export default class Users extends Vue {
                 click: () => {
                   // (this as tableComponent).followData(params.row);
                   (this.$refs.AllModal as any).open();
-                  (this.$refs.AllModal as any).setInitParams(params.row.evaluate,params.column.title,false);
+                  (this.$refs.AllModal as any).setInitParams(params.row.comment,params.column.title,false);
                 }
               }
             },
@@ -228,40 +229,40 @@ export default class Users extends Vue {
   data: Array<any> = [
     {
       id:'15121123',
-      nickname:'小一',
-      name:'admin',
-      gender:'1',
-      birthday:'2016-03-01',
-      phoneNumber:'13138041921',
+      nickName:'小一',
+      fallName:'admin',
+      gender:'男',
+      birth:'2016-03-01',
+      phoneNum:'13138041921',
       address:['广东省梅州市梅县区小一','广东省梅州市梅县区小一','广东省梅州市梅县区小一'],
-      evaluate:['【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑，电脑好评','【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑，电脑中评','【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑，电脑差评'],
+      comment:['【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑，电脑好评','【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑，电脑中评','【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑，电脑差评'],
       coupon:['【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑，电脑好评','【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑,满200减100','【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑，电脑好评','【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑,满200减100','【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑，电脑好评','【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑,满200减100'],
       collection:['【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑，电脑好评','【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑','宁美国度 台式电脑主机i7 8700升9700/1660Super全套高配吃鸡游戏台式机水冷diy组装整机电竞主播','攀升 i7 8700升9700/GTX1660SUPER台式电脑主机高配吃鸡电竞游戏主机DIY网吧主播水冷组装台式机整机全套'],
-      order:[{orderName:'【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑',orderType:'到货'},
-      {orderName:'【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑',orderType:'未到货'},
-      {orderName:'【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑',orderType:'已退款'}]
+      orderList:[{itemName:'【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑',itemStatus:'到货'},
+      {itemName:'【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑',itemStatus:'未到货'},
+      {itemName:'【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑',itemStatus:'已退款'}]
     },
     {
       id:'15121123',
-      nickname:'一仔',
-      name:'admin',
-      gender:'1',
-      birthday:'2016-01-01',
-      phoneNumber:'13138041921',
+      nickName:'一仔',
+      fallName:'admin',
+      gender:'男',
+      birth:'2016-01-01',
+      phoneNum:'13138041921',
       address:['广东省梅州市梅县区小一','广东省梅州市梅县区小一','广东省梅州市梅县区小一'],
-      evaluate:['【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑，电脑好评','【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑，电脑中评','【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑，电脑差评'],
+      comment:['【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑，电脑好评','【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑，电脑中评','【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑，电脑差评'],
       coupon:['【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑，电脑好评','【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑,满200减100','【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑，电脑好评','【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑,满200减100','【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑，电脑好评','【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑,满200减100'],
       collection:['【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑，电脑好评','【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑','宁美国度 台式电脑主机i7 8700升9700/1660Super全套高配吃鸡游戏台式机水冷diy组装整机电竞主播','攀升 i7 8700升9700/GTX1660SUPER台式电脑主机高配吃鸡电竞游戏主机DIY网吧主播水冷组装台式机整机全套']
     },
     {
       id:'15121123',
-      nickname:'小一',
-      name:'admin',
-      gender:'1',
-      birthday:'2016-03-01',
-      phoneNumber:'13138041921',
+      nickName:'小一',
+      fallName:'admin',
+      gender:'女',
+      birth:'2016-03-01',
+      phoneNum:'13138041921',
       address:['广东省梅州市梅县区小一','广东省梅州市梅县区小一','广东省梅州市梅县区小一'],
-      evaluate:['【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑，电脑好评','【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑，电脑中评','【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑，电脑差评'],
+      comment:['【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑，电脑好评','【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑，电脑中评','【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑，电脑差评'],
       coupon:['【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑，电脑好评','【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑,满200减100','【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑，电脑好评','【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑,满200减100','【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑，电脑好评','【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑,满200减100'],
       collection:['【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑，电脑好评','【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑','宁美国度 台式电脑主机i7 8700升9700/1660Super全套高配吃鸡游戏台式机水冷diy组装整机电竞主播','攀升 i7 8700升9700/GTX1660SUPER台式电脑主机高配吃鸡电竞游戏主机DIY网吧主播水冷组装台式机整机全套']
     },
@@ -275,33 +276,40 @@ export default class Users extends Vue {
   };
 
   // 查询API
-  requestanswerQuestionList(){
-    // answerQuestionList
-    // .queryanswerQuestionList(this.queryData)
-    // .then(res=>{
-    //   (this.data as any)=(res as any).returnObject.list;
-    //   this.total=res.returnObject.total;
-    // })
+  getUsers(){
+    const loading = this.$Loading;
+    loading.start();
+    get('http://127.0.0.1:3000/admin/getuser')
+    .then(res=>{
+      this.data=(res as any).data;
+      this.$Message.info((res as any).msg);
+    })
+    .catch(err => {
+       this.$Message.error('加载失败');
+    })
+    .finally(() => {
+      loading.finish();
+    });
   }
 
   queryname(){
     this.queryData.page=1;
-    this.requestanswerQuestionList();
+    this.getUsers();
   }
 
   // 分页请求
   total:number=0;//总页数
   onPageChange(pageInfo: number) {
     this.queryData.page = pageInfo;
-    this.requestanswerQuestionList();
+    this.getUsers();
   }
   onPageSizeChange(newPageSize: number) {
     this.queryData.pageSize = newPageSize;
-    this.requestanswerQuestionList();
+    this.getUsers();
   }
 
   created() {
-   this.requestanswerQuestionList(); 
+   this.getUsers(); 
   }
 }
 </script>
