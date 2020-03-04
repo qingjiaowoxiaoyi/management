@@ -42,7 +42,7 @@ export default class Users extends Vue {
     },
     {
       title: '姓名',
-      key: 'fallName',
+      key: 'fullName',
       align: 'center',
       minWidth:50,
     },
@@ -230,7 +230,7 @@ export default class Users extends Vue {
     {
       id:'15121123',
       nickName:'小一',
-      fallName:'admin',
+      fullName:'admin',
       gender:'男',
       birth:'2016-03-01',
       phoneNum:'13138041921',
@@ -245,7 +245,7 @@ export default class Users extends Vue {
     {
       id:'15121123',
       nickName:'一仔',
-      fallName:'admin',
+      fullName:'admin',
       gender:'男',
       birth:'2016-01-01',
       phoneNum:'13138041921',
@@ -257,7 +257,7 @@ export default class Users extends Vue {
     {
       id:'15121123',
       nickName:'小一',
-      fallName:'admin',
+      fullName:'admin',
       gender:'女',
       birth:'2016-03-01',
       phoneNum:'13138041921',
