@@ -30,25 +30,25 @@ export default class Users extends Vue {
     columns: Array<any> = [
     {
       title: '账号',
-      key: 'id',
+      key: '_id',
       align: 'center',
       minWidth:80,
     },
     {
       title: '昵称',
-      key: 'nickName',
+      key: 'nickname',
       align: 'center',
       minWidth:50,
     },
     {
       title: '姓名',
-      key: 'fullName',
+      key: 'userName',
       align: 'center',
       minWidth:50,
     },
     {
       title: '性别',
-      key: 'gender',
+      key: 'userSex',
       align: 'center',
       minWidth:50,
     },
@@ -60,7 +60,7 @@ export default class Users extends Vue {
     },
     {
       title: '电话号码',
-      key: 'phoneNum',
+      key: 'userTel',
       align: 'center',
       minWidth:85,
     },
@@ -92,7 +92,7 @@ export default class Users extends Vue {
               on: {
                 click: () => {
                   (this.$refs.AllModal as any).open();
-                  (this.$refs.AllModal as any).setInitParams(params.row.address,params.column.title,false);
+                  (this.$refs.AllModal as any).setInitParams(params.row.addressList,params.column.title,false);
                 }
               }
             },
@@ -123,7 +123,7 @@ export default class Users extends Vue {
                 click: () => {
                   // (this as tableComponent).followData(params.row);
                   (this.$refs.AllModal as any).open();
-                  (this.$refs.AllModal as any).setInitParams(params.row.orderList,params.column.title,true);
+                  (this.$refs.AllModal as any).setInitParams(params.row.order,params.column.title,true);
                 }
               }
             },
@@ -216,7 +216,7 @@ export default class Users extends Vue {
                 click: () => {
                   // (this as tableComponent).followData(params.row);
                   (this.$refs.AllModal as any).open();
-                  (this.$refs.AllModal as any).setInitParams(params.row.collection,params.column.title,false);
+                  (this.$refs.AllModal as any).setInitParams(params.row.collects,params.column.title,false);
                 }
               }
             },
