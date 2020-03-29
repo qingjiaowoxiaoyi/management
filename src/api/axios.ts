@@ -1,5 +1,6 @@
 import axios from 'axios';
 import router from '@/router';
+import {Message} from 'view-design';
 // import Qs from 'qs';
  
 axios.defaults.baseURL = "/api";
@@ -44,6 +45,8 @@ axios.interceptors.response.use(function(response) {
         router.push('/login');
       }
     }
+    (Message as any).error('登录时间过期');
+    // router.push('/login');
     return Promise.reject(error);
   }
 );
