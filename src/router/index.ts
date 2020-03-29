@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import ParentView from '@/components/parent-view.vue'
+import ParentView from '@/components/parent-view.vue';
 import Login from '@/components/Login.vue';
 import Welcome from '@/components/Welcome.vue';
 import Home from '@/components/Home.vue';
@@ -12,6 +12,7 @@ import Params from '@/components/goods/Params.vue';
 import Type from '@/components/goods/Type.vue';
 import News from '@/components/news/News.vue';
 import TotalChart from '@/components/chart-data/Total-chart.vue';
+import orderMessage from '@/components/order/orderMessage.vue';
 import CollectionTotal from '@/components/chart-data/Collection-total.vue';
 
 import {Message} from 'view-design';
@@ -81,6 +82,23 @@ const routes = [
                     component: Type
                   }
                 ]
+            },
+            {
+                path: '/order',
+                meta: {
+                  icon: 'md-reorder',
+                  title: '订单信息',
+                },
+                component:ParentView,
+                children:[
+                    {
+                        path: '/order/orderMessage',
+                        meta:{
+                            title: '订单管理'
+                        },
+                        component: orderMessage
+                    }
+                ],
             },
             {
                 path: '/news',
