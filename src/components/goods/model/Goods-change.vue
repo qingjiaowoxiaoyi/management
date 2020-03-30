@@ -1,18 +1,18 @@
 <template>
   <div>
-    <Modal v-model="flag" :title="title" @on-ok='saveOrder'>
-      <Form :model="row" :rules="rules" :label-width="100" ref="dataForm" class="user-from" label-colon>
+    <Modal v-model="flag" :title="title">
+      <Form :model="row" :rules="ruleValidate" ref="ruleValidate" :label-width="100" class="user-from" label-colon>
         <FormItem label="商品名称" prop="itemName">
             <Input placeholder="商品名称" :maxlength="30" v-model="row.itemName"/>
         </FormItem>
         
-        <FormItem label="首页图片" prop="game">
+        <FormItem label="首页图片" prop="homeimg">
             <div v-if="flag">
                 <UploadImage :defaultList='homeimg'></UploadImage>
             </div>
         </FormItem>
 
-        <FormItem label="商品图片" prop="orgname">
+        <FormItem label="商品图片" prop="goodsimg">
             <div v-if="flag">
                 <UploadImage :defaultList='goodsimg'></UploadImage>
             </div>
@@ -26,7 +26,7 @@
             满<Input :maxlength="5" v-model="row.couponfirst" style="width:50px;"/>减<Input :maxlength="5" v-model="row.couponsecond" style="width:50px;"/>
         </FormItem> -->
 
-        <FormItem label="商品分类" prop="type">
+        <FormItem label="商品分类" prop="specs">
             <Select v-model="row.junior" @on-change='requestSelect'>
                 <OptionGroup :label="item.category" v-for="(item,index) in Params" :key="index">
                     <Option v-for="(element,num) in item.children" :value="element.propID" :key="num">{{ element.property }}</Option>
@@ -36,7 +36,7 @@
 
         <template v-if="row.junior">
             <FormItem label="商品参数" prop="type">
-                <Select v-model="row.styleID" multiple @on-change='Select'>
+                <Select v-model="row.styleID" multiple @on-change='selectType'>
                     <OptionGroup :label="item.specName" v-for="(item,index) in selectedData" :key="index">
                         <Option v-for="(element,num) in item.specList" :value="element._id" :key="num">{{ element.style }}</Option>
                     </OptionGroup>
@@ -44,8 +44,19 @@
             </FormItem>
         </template>
         
-        <FormItem label="商品价格" prop="price">
-            <Input placeholder="价格" v-model="row.price" type="text"/>
+        <FormItem label="商品价格" prop="oldPrice">
+            <InputNumber placeholder="价格" v-model="row.oldPrice" type="text"/>
+        </FormItem>
+
+        <FormItem label="是否促销" prop="promotion">
+            <i-switch v-model="isPromotion">
+                <Icon type="md-checkmark" slot="open"></Icon>
+                <Icon type="md-close" slot="close"></Icon>
+            </i-switch>
+        </FormItem>
+
+        <FormItem v-if="isPromotion" label="商品折扣价" prop="newPrice">
+            <InputNumber placeholder="折扣价" v-model="row.newPrice" type="text"/>
         </FormItem>
 
         <FormItem label="销售量" prop="salesCount">
@@ -67,13 +78,16 @@
             <Input v-model="row.itemDetail" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="请输入详情" />
         </FormItem>
       </Form>
+      <template slot="footer">
+        <Button type="info" @click="saveOrder">确认</Button>
+      </template>
     </Modal>
   </div>
 </template>
 
 <script lang='ts'>
 import { Vue, Component, Prop, Emit } from 'vue-property-decorator';
-import { Modal,Card } from 'view-design';
+import { Modal,Card,Switch } from 'view-design';
 import Viewer from "v-viewer";
 import UploadImage from '../component/Upload-image.vue';
 import {get,post,put,deletefn} from '@/api/axios';
@@ -95,6 +109,48 @@ export default class ChangeGoods extends Vue {
   judge:boolean=false;//编辑为true 新增为false
   Params:any=[];//商品分类数据
   selectedData:Array<any>=[];//参数分类数据
+  isPromotion:boolean=false;//是否促销
+
+  // 输入控件数据约束
+  ruleValidate: any = {
+      itemName: [
+          {
+              required: true,
+              min: 1,
+              message: "名字不能为空",
+              trigger: "blur"
+          }
+      ],
+      stock: [
+          {
+              required: true,
+              message: "请添加库存数量",
+              trigger: "blur"
+          }
+      ],
+      specs:[
+          {
+              required: true,
+              message: "请添加商品属性",
+              trigger: "change"
+          }
+      ],
+      type: [
+          {
+              required: true,
+              message: "请添加商品参数",
+              trigger: "change"
+          }
+      ],
+      oldPrice: [
+          {
+              required: true,
+              message: "请输入商品价格",
+              trigger: "blur",
+              type: "number",
+          }
+      ]
+  }
 
   open(){
     this.flag=true;
@@ -117,44 +173,44 @@ export default class ChangeGoods extends Vue {
 
   // 保存订单信息
   saveOrder(){
+    let close = true;
+    (this.$refs['ruleValidate'] as any).validate((valid:any) => {
+        if (valid) {
+            this.$Message.success('Success!');
+        } else {
+            this.$Message.error('Fail!');
+            close=false;
+            return;
+        }
+    })
+    if(!close){
+      return;
+    }
+
     if(this.judge){
-        // 修改
-        this.putGoods(this.row)
-        this.flag=false;
-        return;
-      }
-      // 新增
-      this.postGoods(this.row);
+      // 修改
+      this.putGoods(this.row)
       this.flag=false;
+      return;
+    }
+
+    if(this.row.oldPrice<=this.row.newPrice){
+      this.$Message.error('促销价禁止高于原价');
+      return;
+    }
+    
+    // 新增
+    this.postGoods(this.row);
+    this.flag=false;
   }
 
-  // 输入控件数据约束
-  rules: any = {
-      username: [
-          {
-              required: true,
-              min: 1,
-              message: "名字不能为空",
-              trigger: "blur"
-          }
-      ],
-      password: [
-          {
-              required: true,
-              min: 6,
-              message: "密码不能小于6位的字符",
-              trigger: "blur"
-          }
-      ]
-  }
-
-  Select(value:any){
+  selectType(value:any){
       this.row.styleID=value;
   }
 
   async requestSelect(value:any){
-      this.row.junior=value;
-      this.row.styleID=[];
+    this.row.junior=value;
+    this.row.styleID=[];
       
     //   await this.$nextTick();
 
@@ -193,7 +249,7 @@ export default class ChangeGoods extends Vue {
        this.$Message.error('加载失败');
     })
   }
- created() {
+  created() {
    this.getParams();
   }
 }
