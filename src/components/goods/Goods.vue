@@ -2,7 +2,7 @@
    <div>
      <Row>
         <Col span="21">
-          <Input v-model="queryData.keyword" placeholder="请输入商品名称查询" style="margin:10px 0;width:200px;" @on-enter="queryname" @on-blur="queryname" />
+          <Input v-model="queryData.keyword" placeholder="请输入商品名称查询" style="margin:10px 0;width:200px;" @on-enter="queryname" />
           <Button type="info" style="margin-left:10px;" @click="queryname">搜  索</Button>
         </Col>
         <Col span="3">
@@ -166,9 +166,10 @@ export default class Goods extends Vue {
   getGoods(){
     const loading = this.$Loading;
     loading.start();
-    get('http://127.0.0.1:3000/goods')
+    get('http://127.0.0.1:3000/goods',this.queryData)
     .then(res=>{
       this.data=(res as any).data;
+      this.total=(res as any).total;
       this.$Message.info((res as any).msg);
     })
     .catch(err => {

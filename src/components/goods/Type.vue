@@ -164,9 +164,10 @@ export default class Type extends Vue {
   selectData:Array<any>=[];
   getParams(){
     const loading = this.$Loading;
-    get('http://127.0.0.1:3000/category')
+    get('http://127.0.0.1:3000/category',this.queryData)
     .then(res=>{
       this.selectData=(res as any).resList;
+      this.total=(res as any).total;
       this.data.forEach((item,index)=>{
         if(item.children&&item.children.length>0){
           item.children.forEach((element:any,num:number)=>{

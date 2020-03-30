@@ -243,9 +243,10 @@ export default class orderMessage extends Vue {
   getOrder(){
     const loading = this.$Loading;
     loading.start();
-    // get('http://127.0.0.1:3000/goods')
+    // get('http://127.0.0.1:3000/goods',this.queryData)
     // .then(res=>{
     //   this.data=(res as any).data;
+    //   this.total=(res as any).total;
     //   this.$Message.info((res as any).msg);
     // })
     // .catch(err => {

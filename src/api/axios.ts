@@ -59,9 +59,9 @@ axios.interceptors.response.use(function(response) {
  * @param {String} url [请求的url地址]
  * @param {Object} params [请求时携带的参数]
  */
-export function get(this:any, url:any) {
+export function get(this:any, url:any, params?:any) {
     return new Promise((resolve, reject) => {
-        axios.get(url).then(res => {
+        axios.get(url,{params: params}).then(res => {
             resolve(res.data);
         }).catch(err => {
             reject(err.data)

@@ -142,9 +142,10 @@ export default class News extends Vue {
   getNews(){
     const loading = this.$Loading;
     loading.start();
-    get('http://127.0.0.1:3000/news/getnews')
+    get('http://127.0.0.1:3000/news/getnews',this.queryData)
     .then(res=>{
       this.data=(res as any).data;
+      this.total=(res as any).total;
       this.data.forEach((item,index)=>{
         item.id=index+1;
       })
