@@ -1,8 +1,8 @@
 <template>
   <div>
     <Modal v-model="flag" :title="title">
-      <Form :model="row" :rules="ruleValidate" ref="ruleValidate" :label-width="100" class="user-from" label-colon>
-        <FormItem label="商品名称" prop="itemName">
+      <Form :model="row" ref="ruleValidate" :label-width="100" class="user-from" label-colon>
+        <FormItem label="商品名称" prop="itemName" :rules="ruleValidate.itemName">
             <Input placeholder="商品名称" :maxlength="30" v-model="row.itemName"/>
         </FormItem>
         
@@ -18,15 +18,11 @@
             </div>
         </FormItem>
 
-        <FormItem label="库存数量" prop="stock">
+        <FormItem label="库存数量" prop="stock" :rules="ruleValidate.stock">
             <Input v-model="row.stock" placeholder="库存数量"/>
         </FormItem>
 
-        <!-- <FormItem label="商品优惠" prop="coupon">
-            满<Input :maxlength="5" v-model="row.couponfirst" style="width:50px;"/>减<Input :maxlength="5" v-model="row.couponsecond" style="width:50px;"/>
-        </FormItem> -->
-
-        <FormItem label="商品分类" prop="specs">
+        <FormItem label="商品分类" prop="junior" :rules="ruleValidate.junior">
             <Select v-model="row.junior" @on-change='requestSelect'>
                 <OptionGroup :label="item.category" v-for="(item,index) in Params" :key="index">
                     <Option v-for="(element,num) in item.children" :value="element.propID" :key="num">{{ element.property }}</Option>
@@ -35,16 +31,16 @@
         </FormItem>
 
         <template v-if="row.junior">
-            <FormItem label="商品参数" prop="type">
+            <FormItem label="商品参数" prop="styleID">
                 <Select v-model="row.styleID" multiple @on-change='selectType'>
-                    <OptionGroup :label="item.specName" v-for="(item,index) in selectedData" :key="index">
+                    <OptionGroup :label="item.specType" v-for="(item,index) in selectedData" :key="index">
                         <Option v-for="(element,num) in item.specList" :value="element._id" :key="num">{{ element.style }}</Option>
                     </OptionGroup>
                 </Select>
             </FormItem>
         </template>
         
-        <FormItem label="商品价格" prop="oldPrice">
+        <FormItem label="商品价格" prop="oldPrice" :rules="ruleValidate.oldPrice">
             <InputNumber placeholder="价格" v-model="row.oldPrice" type="text"/>
         </FormItem>
 
@@ -128,20 +124,25 @@ export default class ChangeGoods extends Vue {
               trigger: "blur"
           }
       ],
-      specs:[
+      junior:[
           {
               required: true,
               message: "请添加商品属性",
-              trigger: "change"
+              trigger: "change",
           }
       ],
-      type: [
-          {
-              required: true,
-              message: "请添加商品参数",
-              trigger: "change"
-          }
-      ],
+      // styleID: [
+      //     {
+      //         required: true,
+      //         message: "请添加商品参数",
+      //         trigger: "change",
+      //         type:'array',
+      //         validator:(rule:any, value:any, callback:any) => {
+      //           console.log(value,this.ruleValidate);
+      //           callback('Fail!');
+      //         }
+      //     }
+      // ],
       oldPrice: [
           {
               required: true,
@@ -176,11 +177,9 @@ export default class ChangeGoods extends Vue {
     let close = true;
     (this.$refs['ruleValidate'] as any).validate((valid:any) => {
         if (valid) {
-            this.$Message.success('Success!');
+          close=true;
         } else {
-            this.$Message.error('Fail!');
-            close=false;
-            return;
+          close=false;
         }
     })
     if(!close){
@@ -211,8 +210,6 @@ export default class ChangeGoods extends Vue {
   async requestSelect(value:any){
     this.row.junior=value;
     this.row.styleID=[];
-      
-    //   await this.$nextTick();
 
     // 查询属性api
     const loading = this.$Loading;
@@ -230,13 +227,34 @@ export default class ChangeGoods extends Vue {
     }).finally(() => {
       loading.finish();
     });
+
+    // setTimeout(()=>{
+    //   this.selectedData=[
+    //   {
+    //     _id: "5e50db9c3d01c418f40eed4a",
+    //     specType: "STORAGE",
+    //     specList: [
+    //       {
+    //         _id:'5541',
+    //         style:'东西'
+    //       },
+    //       {
+    //         _id:'5542',
+    //         style:'东西1'
+    //       },
+    //       {
+    //         _id:'5543',
+    //         style:'东西2'
+    //       }
+    //     ]
+    //   }
+    // ]
+    // },50)
   }
 
-  @Emit('putGoods') private putGoods(row:any): void {
-  }
+  @Emit('putGoods') private putGoods(row:any): void {}
 
-  @Emit('postGoods') private postGoods(row:any): void {
-  }
+  @Emit('postGoods') private postGoods(row:any): void {}
 
   // 获取参数选择
   getParams(){
@@ -248,7 +266,64 @@ export default class ChangeGoods extends Vue {
     .catch(err => {
        this.$Message.error('加载失败');
     })
+    // setTimeout(()=>{
+    //   this.Params=[
+    //     {
+    //       id: 1,
+    //       category: "蛋糕",
+    //       isok: true,
+    //       level: "一级",
+    //       children: [
+    //         {
+    //           propID: "5e50ce2445c74a3d48ec04dd",
+    //           property: "蒸蛋糕",
+    //           isok: true,
+    //           level: "二级"
+    //         },
+    //         {
+    //           propID: "5e50dcdc3d01c418f40eed4d",
+    //           property: "年轮蛋糕",
+    //           isok: true,
+    //           level: "二级"
+    //         },
+    //         {
+    //           propID: "5e522924870783457c03eead",
+    //           property: "马卡龙",
+    //           isok: true,
+    //           level: "二级"
+    //         }
+    //       ]
+    //     },
+    //     {
+    //       id: 2,
+    //       category: "电脑",
+    //       isok: true,
+    //       level: "一级",
+    //       children: [
+    //         {
+    //           propID: "5e50ce2445c74a3d48ec04dc",
+    //           property: "蒸蛋糕",
+    //           isok: true,
+    //           level: "二级"
+    //         },
+    //         {
+    //           propID: "5e50dcdc3d01c418f40eed4c",
+    //           property: "年轮蛋糕",
+    //           isok: true,
+    //           level: "二级"
+    //         },
+    //         {
+    //           propID: "5e522924870783457c03eeac",
+    //           property: "马卡龙",
+    //           isok: true,
+    //           level: "二级"
+    //         }
+    //       ]
+    //     }
+    //   ]
+    // },50)
   }
+
   created() {
    this.getParams();
   }
