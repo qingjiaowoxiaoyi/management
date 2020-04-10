@@ -271,7 +271,7 @@ export default class Users extends Vue {
   // 要查询数据
   queryData: any = {
     page: 1,
-    pageSize: 10,
+    size: 10,
     keyword: undefined,
     flag:1
   };
@@ -325,7 +325,7 @@ export default class Users extends Vue {
     this.getUsers();
   }
   onPageSizeChange(newPageSize: number) {
-    this.queryData.pageSize = newPageSize;
+    this.queryData.size = newPageSize;
     this.getUsers();
   }
 

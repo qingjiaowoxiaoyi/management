@@ -135,7 +135,7 @@ export default class Goods extends Vue {
   // 要查询数据
   queryData: any = {
     page: 1,
-    pageSize: 10,
+    size: 10,
     keyword: undefined,
     flag:2
   };
@@ -172,7 +172,7 @@ export default class Goods extends Vue {
     this.getGoods();
   }
   onPageSizeChange(newPageSize: number) {
-    this.queryData.pageSize = newPageSize;
+    this.queryData.size = newPageSize;
     this.getGoods();
   }
 
