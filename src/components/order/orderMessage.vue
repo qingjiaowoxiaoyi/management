@@ -201,12 +201,14 @@ export default class orderMessage extends Vue {
   queryData: any = {
     page: 1,
     size: 10,
-    keyword: undefined
+    keyword: undefined,
+    flag:3
   };
 
   // 查询
   queryname(){
     this.queryData.page=1;
+    this.queryData.flag=3;
     this.search();
   }
 
