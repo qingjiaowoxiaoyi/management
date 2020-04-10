@@ -272,7 +272,8 @@ export default class Users extends Vue {
   queryData: any = {
     page: 1,
     pageSize: 10,
-    keyword: undefined
+    keyword: undefined,
+    flag:1
   };
 
   // 查询API
@@ -295,7 +296,26 @@ export default class Users extends Vue {
 
   queryname(){
     this.queryData.page=1;
-    this.getUsers();
+    this.queryData.flag=1;
+    this.search();
+  }
+
+  // 搜索
+  search(){
+    const loading = this.$Loading;
+    loading.start();
+    get('http://127.0.0.1:3000/search/admin',this.queryData)
+    .then((res:any)=>{
+      this.data=(res as any).data;
+      this.total=(res as any).total;
+      this.$Message.info((res as any).msg);
+    })
+    .catch((err:any) => {
+       this.$Message.error('加载失败');
+    })
+    .finally(() => {
+      loading.finish();
+    });
   }
 
   // 分页请求
