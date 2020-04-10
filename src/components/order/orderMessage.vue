@@ -243,136 +243,136 @@ export default class orderMessage extends Vue {
   getOrder(){
     const loading = this.$Loading;
     loading.start();
-    // get('http://127.0.0.1:3000/goods',this.queryData)
-    // .then(res=>{
-    //   this.data=(res as any).data;
-    //   this.total=(res as any).total;
-    //   this.$Message.info((res as any).msg);
-    // })
-    // .catch(err => {
-    //    this.$Message.error('加载失败');
-    // })
-    // .finally(() => {
-    //   loading.finish();
-    // });
-    setTimeout(()=>{
-        this.data=[
-            {
-                item: [
-                    {
-                        name: "商品3",
-                        type: "storage: 500g graphic: 1080",
-                        price: 969,
-                        count: 3
-                    },
-                    {
-                        name: "商品4",
-                        type: "口味: 香蕉味 产地: 广州",
-                        price: 970,
-                        count: 3
-                    }
-                ],
-                _id:'5e760c09c0b1663f34ddca20',
-                total: "42.00",
-                orderId: "202032120435310",
-                orderTime:"2020-3-21 20:43:53",
-                express: "申通",
-                message: "",
-                status: "申请退货"
-            },
-            {
-                item: [
-                    {
-                        name: "商品3",
-                        type: "storage: 500g graphic: 1080",
-                        price: 969,
-                        count: 3
-                    },
-                    {
-                        name: "商品4",
-                        type: "口味: 香蕉味 产地: 广州",
-                        price: 970,
-                        count: 3
-                    }
-                ],
-                _id:'5e760c09c0b1663f34ddca21',
-                total: "42.00",
-                orderId: "202032120435311",
-                orderTime:"2020-3-21 20:43:53",
-                express: "圆通",
-                message: "记得弄好看点",
-                status: "已发货"
-            },
-            {
-                item: [
-                    {
-                        name: "商品3",
-                        type: "storage: 500g graphic: 1080",
-                        price: 969,
-                        count: 3
-                    },
-                    {
-                        name: "商品4",
-                        type: "口味: 香蕉味 产地: 广州",
-                        price: 970,
-                        count: 3
-                    }
-                ],
-                total: "42.00",
-                _id:'5e760c09c0b1663f34ddca22',
-                orderId: "202032120435312",
-                orderTime:"2020-3-21 20:43:53",
-                express: "顺丰",
-                message: "快点发货",
-                status: "未发货"
-            },
-            {
-                item: [
-                    {
-                        name: "商品3",
-                        type: "storage: 500g graphic: 1080",
-                        price: 969,
-                        count: 3
-                    },
-                    {
-                        name: "商品4",
-                        type: "口味: 香蕉味 产地: 广州",
-                        price: 970,
-                        count: 3
-                    }
-                ],
-                total: "42.00",
-                orderId: "202032120435312",
-                orderTime:"2020-3-21 20:43:53",
-                express: "顺丰",
-                message: "快点发货",
-                status: "退货成功"
-            },
-            {
-                item: [
-                    {
-                        name: "商品3",
-                        type: "storage: 500g graphic: 1080",
-                        price: 969,
-                        count: 3
-                    },
-                    {
-                        name: "商品4",
-                        type: "口味: 香蕉味 产地: 广州",
-                        price: 970,
-                        count: 3
-                    }
-                ],
-                total: "42.00",
-                orderId: "202032120435312",
-                orderTime:"2020-3-21 20:43:53",
-                express: "顺丰",
-                message: "快点发货",
-                status: "退货失败"
-            }
-        ]
-        loading.finish();
-    },50)
+    get('http://127.0.0.1:3000/admin/getorder',this.queryData)
+    .then(res=>{
+      this.data=(res as any).data;
+      this.total=(res as any).total;
+      this.$Message.info((res as any).msg);
+    })
+    .catch(err => {
+       this.$Message.error('加载失败');
+    })
+    .finally(() => {
+      loading.finish();
+    });
+    // setTimeout(()=>{
+    //     this.data=[
+    //         {
+    //             item: [
+    //                 {
+    //                     name: "商品3",
+    //                     type: "storage: 500g graphic: 1080",
+    //                     price: 969,
+    //                     count: 3
+    //                 },
+    //                 {
+    //                     name: "商品4",
+    //                     type: "口味: 香蕉味 产地: 广州",
+    //                     price: 970,
+    //                     count: 3
+    //                 }
+    //             ],
+    //             _id:'5e760c09c0b1663f34ddca20',
+    //             total: "42.00",
+    //             orderId: "202032120435310",
+    //             orderTime:"2020-3-21 20:43:53",
+    //             express: "申通",
+    //             message: "",
+    //             status: "申请退货"
+    //         },
+    //         {
+    //             item: [
+    //                 {
+    //                     name: "商品3",
+    //                     type: "storage: 500g graphic: 1080",
+    //                     price: 969,
+    //                     count: 3
+    //                 },
+    //                 {
+    //                     name: "商品4",
+    //                     type: "口味: 香蕉味 产地: 广州",
+    //                     price: 970,
+    //                     count: 3
+    //                 }
+    //             ],
+    //             _id:'5e760c09c0b1663f34ddca21',
+    //             total: "42.00",
+    //             orderId: "202032120435311",
+    //             orderTime:"2020-3-21 20:43:53",
+    //             express: "圆通",
+    //             message: "记得弄好看点",
+    //             status: "已发货"
+    //         },
+    //         {
+    //             item: [
+    //                 {
+    //                     name: "商品3",
+    //                     type: "storage: 500g graphic: 1080",
+    //                     price: 969,
+    //                     count: 3
+    //                 },
+    //                 {
+    //                     name: "商品4",
+    //                     type: "口味: 香蕉味 产地: 广州",
+    //                     price: 970,
+    //                     count: 3
+    //                 }
+    //             ],
+    //             total: "42.00",
+    //             _id:'5e760c09c0b1663f34ddca22',
+    //             orderId: "202032120435312",
+    //             orderTime:"2020-3-21 20:43:53",
+    //             express: "顺丰",
+    //             message: "快点发货",
+    //             status: "未发货"
+    //         },
+    //         {
+    //             item: [
+    //                 {
+    //                     name: "商品3",
+    //                     type: "storage: 500g graphic: 1080",
+    //                     price: 969,
+    //                     count: 3
+    //                 },
+    //                 {
+    //                     name: "商品4",
+    //                     type: "口味: 香蕉味 产地: 广州",
+    //                     price: 970,
+    //                     count: 3
+    //                 }
+    //             ],
+    //             total: "42.00",
+    //             orderId: "202032120435312",
+    //             orderTime:"2020-3-21 20:43:53",
+    //             express: "顺丰",
+    //             message: "快点发货",
+    //             status: "退货成功"
+    //         },
+    //         {
+    //             item: [
+    //                 {
+    //                     name: "商品3",
+    //                     type: "storage: 500g graphic: 1080",
+    //                     price: 969,
+    //                     count: 3
+    //                 },
+    //                 {
+    //                     name: "商品4",
+    //                     type: "口味: 香蕉味 产地: 广州",
+    //                     price: 970,
+    //                     count: 3
+    //                 }
+    //             ],
+    //             total: "42.00",
+    //             orderId: "202032120435312",
+    //             orderTime:"2020-3-21 20:43:53",
+    //             express: "顺丰",
+    //             message: "快点发货",
+    //             status: "退货失败"
+    //         }
+    //     ]
+    //     loading.finish();
+    // },50)
   }
 
   created() {
