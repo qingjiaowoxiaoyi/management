@@ -200,14 +200,14 @@ export default class orderMessage extends Vue {
   // 要查询数据
   queryData: any = {
     page: 1,
-    pageSize: 10,
+    size: 10,
     keyword: undefined
   };
 
   // 查询
   queryname(){
     this.queryData.page=1;
-    this.getOrder();
+    this.search();
   }
 
   // 分页请求
@@ -217,8 +217,26 @@ export default class orderMessage extends Vue {
     this.getOrder();
   }
   onPageSizeChange(newPageSize: number) {
-    this.queryData.pageSize = newPageSize;
+    this.queryData.size = newPageSize;
     this.getOrder();
+  }
+
+  // 搜索
+  search(){
+    const loading = this.$Loading;
+    loading.start();
+    get('http://127.0.0.1:3000/search/admin',this.queryData)
+    .then(res=>{
+      this.data=(res as any).data;
+      this.total=(res as any).total;
+      this.$Message.info((res as any).msg);
+    })
+    .catch(err => {
+       this.$Message.error('加载失败');
+    })
+    .finally(() => {
+      loading.finish();
+    });
   }
 
   // 改变商品状态
