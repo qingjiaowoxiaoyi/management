@@ -234,7 +234,22 @@ export default class Users extends Vue {
       userSex:'男',
       birth:'2016-03-01',
       userTel:'13138041921',
-      addressList:['广东省梅州市梅县区小一','广东省梅州市梅县区小一','广东省梅州市梅县区小一'],
+      addressList:[{
+          receiver: "收件人",
+          phone: "1",
+          province: "广东省",
+          city: "广州市",
+          district: "从化区",
+          location: "详细地址",
+        },
+        {
+          receiver: "收件人",
+          phone: "1",
+          province: "广东省",
+          city: "广州市",
+          district: "从化区",
+          location: "详细地址",
+        }],
       comment:['【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑，电脑好评','【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑，电脑中评','【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑，电脑差评'],
       coupon:['【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑，电脑好评','【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑,满200减100','【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑，电脑好评','【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑,满200减100','【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑，电脑好评','【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑,满200减100'],
       collection:['【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑，电脑好评','【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑','宁美国度 台式电脑主机i7 8700升9700/1660Super全套高配吃鸡游戏台式机水冷diy组装整机电竞主播','攀升 i7 8700升9700/GTX1660SUPER台式电脑主机高配吃鸡电竞游戏主机DIY网吧主播水冷组装台式机整机全套'],
@@ -249,7 +264,14 @@ export default class Users extends Vue {
       userSex:'男',
       birth:'2016-01-01',
       userTel:'13138041921',
-      addressList:['广东省梅州市梅县区小一','广东省梅州市梅县区小一','广东省梅州市梅县区小一'],
+      addressList:[{
+          receiver: "收件人",
+          phone: "1",
+          province: "广东省",
+          city: "广州市",
+          district: "从化区",
+          location: "详细地址",
+        }],
       comment:['【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑，电脑好评','【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑，电脑中评','【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑，电脑差评'],
       coupon:['【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑，电脑好评','【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑,满200减100','【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑，电脑好评','【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑,满200减100','【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑，电脑好评','【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑,满200减100'],
       collection:['【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑，电脑好评','【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑','宁美国度 台式电脑主机i7 8700升9700/1660Super全套高配吃鸡游戏台式机水冷diy组装整机电竞主播','攀升 i7 8700升9700/GTX1660SUPER台式电脑主机高配吃鸡电竞游戏主机DIY网吧主播水冷组装台式机整机全套']
@@ -261,7 +283,32 @@ export default class Users extends Vue {
       userSex:'女',
       birth:'2016-03-01',
       userTel:'13138041921',
-      addressList:['广东省梅州市梅县区小一','广东省梅州市梅县区小一','广东省梅州市梅县区小一'],
+      addressList:[
+        {
+          receiver: "收件人",
+          phone: "1",
+          province: "广东省",
+          city: "广州市",
+          district: "从化区",
+          location: "详细地址",
+        },
+        {
+          receiver: "收件人",
+          phone: "1",
+          province: "广东省",
+          city: "广州市",
+          district: "从化区",
+          location: "详细地址",
+        },
+        {
+          receiver: "收件人",
+          phone: "1",
+          province: "广东省",
+          city: "广州市",
+          district: "从化区",
+          location: "详细地址",
+        }
+      ],
       comment:['【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑，电脑好评','【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑，电脑中评','【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑，电脑差评'],
       coupon:['【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑，电脑好评','【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑,满200减100','【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑，电脑好评','【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑,满200减100','【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑，电脑好评','【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑,满200减100'],
       collection:['【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑，电脑好评','【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑','宁美国度 台式电脑主机i7 8700升9700/1660Super全套高配吃鸡游戏台式机水冷diy组装整机电竞主播','攀升 i7 8700升9700/GTX1660SUPER台式电脑主机高配吃鸡电竞游戏主机DIY网吧主播水冷组装台式机整机全套']
@@ -280,18 +327,131 @@ export default class Users extends Vue {
   getUsers(){
     const loading = this.$Loading;
     loading.start();
-    get('http://127.0.0.1:3000/admin/getuser',this.queryData)
-    .then((res:any)=>{
-      this.data=(res as any).data;
-      this.total=(res as any).total;
-      this.$Message.info((res as any).msg);
+    // get('http://127.0.0.1:3000/admin/getuser',this.queryData)
+    // .then((res:any)=>{
+    //   this.data=(res as any).data;
+    //   this.total=(res as any).total;
+
+    //   // 地址转换
+    //   let addressList = [] as any;
+    //   (res as any).data.addressList.forEach((element:any) => {
+    //     let address = element.province + element.city + element.district + element.location + element.receiver;
+    //     addressList.push(address);
+    //   });
+    //   (this.data as any).addressList = addressList;
+
+    //   this.$Message.info((res as any).msg);
+    // })
+    // .catch((err:any) => {
+    //    this.$Message.error('加载失败');
+    // })
+    // .finally(() => {
+    //   loading.finish();
+    // });
+
+    setTimeout(()=>{
+      this.data = [
+    {
+      _id:'15121123',
+      nickname:'小一',
+      userName:'admin',
+      userSex:'男',
+      birth:'2016-03-01',
+      userTel:'13138041921',
+      addressList:[{
+          receiver: "收件人",
+          phone: "1",
+          province: "广东省",
+          city: "广州市",
+          district: "从化区",
+          location: "详细地址",
+        },
+        {
+          receiver: "收件人",
+          phone: "1",
+          province: "广东省",
+          city: "广州市",
+          district: "从化区",
+          location: "详细地址",
+        }],
+      comment:['【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑，电脑好评','【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑，电脑中评','【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑，电脑差评'],
+      coupon:['【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑，电脑好评','【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑,满200减100','【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑，电脑好评','【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑,满200减100','【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑，电脑好评','【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑,满200减100'],
+      collection:['【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑，电脑好评','【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑','宁美国度 台式电脑主机i7 8700升9700/1660Super全套高配吃鸡游戏台式机水冷diy组装整机电竞主播','攀升 i7 8700升9700/GTX1660SUPER台式电脑主机高配吃鸡电竞游戏主机DIY网吧主播水冷组装台式机整机全套'],
+      orderList:[{itemName:'【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑',itemStatus:'到货'},
+      {itemName:'【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑',itemStatus:'未到货'},
+      {itemName:'【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑',itemStatus:'已退款'}]
+    },
+    {
+      _id:'15121123',
+      nickname:'一仔',
+      userName:'admin',
+      userSex:'男',
+      birth:'2016-01-01',
+      userTel:'13138041921',
+      addressList:[{
+          receiver: "收件人",
+          phone: "1",
+          province: "广东省",
+          city: "广州市",
+          district: "从化区",
+          location: "详细地址",
+        }],
+      comment:['【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑，电脑好评','【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑，电脑中评','【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑，电脑差评'],
+      coupon:['【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑，电脑好评','【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑,满200减100','【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑，电脑好评','【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑,满200减100','【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑，电脑好评','【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑,满200减100'],
+      collection:['【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑，电脑好评','【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑','宁美国度 台式电脑主机i7 8700升9700/1660Super全套高配吃鸡游戏台式机水冷diy组装整机电竞主播','攀升 i7 8700升9700/GTX1660SUPER台式电脑主机高配吃鸡电竞游戏主机DIY网吧主播水冷组装台式机整机全套']
+    },
+    {
+      _id:'15121123',
+      nickname:'小一',
+      userName:'admin',
+      userSex:'女',
+      birth:'2016-03-01',
+      userTel:'13138041921',
+      addressList:[
+        {
+          receiver: "收件人",
+          phone: "1",
+          province: "广东省",
+          city: "广州市",
+          district: "从化区",
+          location: "详细地址",
+        },
+        {
+          receiver: "收件人",
+          phone: "1",
+          province: "广东省",
+          city: "广州市",
+          district: "从化区",
+          location: "详细地址",
+        },
+        {
+          receiver: "收件人",
+          phone: "1",
+          province: "广东省",
+          city: "广州市",
+          district: "从化区",
+          location: "详细地址",
+        }
+      ],
+      comment:['【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑，电脑好评','【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑，电脑中评','【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑，电脑差评'],
+      coupon:['【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑，电脑好评','【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑,满200减100','【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑，电脑好评','【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑,满200减100','【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑，电脑好评','【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑,满200减100'],
+      collection:['【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑，电脑好评','【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑','宁美国度 台式电脑主机i7 8700升9700/1660Super全套高配吃鸡游戏台式机水冷diy组装整机电竞主播','攀升 i7 8700升9700/GTX1660SUPER台式电脑主机高配吃鸡电竞游戏主机DIY网吧主播水冷组装台式机整机全套']
+    },
+  ]
+
+    // 地址转换
+      let addressList = [] as any;
+      (this.data as any).forEach((item:any)=>{
+        item.addressList.forEach((element:any) => {
+          let address = element.province + element.city + element.district + element.location + element.receiver;
+          addressList.push(address);
+          console.log(address)
+        });
+      });
+      // (this.data as any).addressList = addressList;
     })
-    .catch((err:any) => {
-       this.$Message.error('加载失败');
-    })
-    .finally(() => {
-      loading.finish();
-    });
+
+    
   }
 
   queryname(){
