@@ -91,8 +91,15 @@ export default class Users extends Vue {
               },
               on: {
                 click: () => {
+                  let addressList = [] as any
+                  get('http://127.0.0.1:3000/address',{id: params.row._id}).then((res: any) => {
+                      res.data.forEach((element: any) => {
+                      addressList.push('' + element.province + element.city + element.district + element.location + `, 收件人: ${element.receiver}`)
+                    });
+                  });
+                //   console.log(addressList);
                   (this.$refs.AllModal as any).open();
-                  (this.$refs.AllModal as any).setInitParams(params.row.addressList,params.column.title,false);
+                  (this.$refs.AllModal as any).setInitParams(addressList,params.column.title,false);
                 }
               }
             },
@@ -160,7 +167,7 @@ export default class Users extends Vue {
                 click: () => {
                   let commentList = [] as any;
                   // 评论名获取
-                  get('http://127.0.0.1:3000/comment',{id: params.row.comment.userId, commentType: 1, page: 1, size: 10000})
+                  get('http://127.0.0.1:3000/comment',{id: params.row._id, commentType: 1, page: 1, size: 10000})
                   .then((res:any)=>{
                     res.data.forEach((item:any)=>{
                       commentList.push(item.itemName +  ' 评论：' + item.content);
@@ -228,10 +235,11 @@ export default class Users extends Vue {
                   // (this as tableComponent).followData(params.row);params.row.comment.userId
                   // 获取用户券
                   let couponList = [] as any;
-                  get('http://127.0.0.1:3000/coupon/user',{userId: params.row.comment.userId})
+                  get('http://127.0.0.1:3000/coupon/user',{userId: params.row._id})
                   .then((res:any)=>{
                     res.data.forEach((item:any)=>{
-                      couponList.push(' 折扣：' + item.coupon.discount +  ' 过期时间：' + item.coupon.endTime + ' 是否使用：' + item.coupon.isUsed);
+                    //   couponList.push(' 折扣：' + item.coupon.discount +  ' 过期时间：' + item.coupon.endTime + ' 是否使用：' + item.isUsed);
+                      couponList.push(`折扣：${item.coupon.discount}元 过期时间：${item.coupon.endTime} 是否使用：${item.isUsed ? '是' : '否'}`)
                     });
 
                     (this.$refs.AllModal as any).open();
@@ -326,7 +334,7 @@ export default class Users extends Vue {
     setTimeout(()=>{
       this.data = [
     {
-      _id:'15121123',
+      _id:'5e53e854f159f364ff694dd8',
       nickname:'小一',
       userName:'admin',
       userSex:'男',
@@ -389,7 +397,7 @@ export default class Users extends Vue {
       ]
     },
     {
-      _id:'15121123',
+      _id:'5e8870916468542f48ba5f0e',
       nickname:'一仔',
       userName:'admin',
       userSex:'男',
