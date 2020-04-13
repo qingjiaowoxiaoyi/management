@@ -122,8 +122,14 @@ export default class Users extends Vue {
               on: {
                 click: () => {
                   // (this as tableComponent).followData(params.row);
+                  let orderList = [] as any;
+                  params.row.orderList.forEach((item:any)=>{
+                    item.item.forEach((element:any)=>{
+                      orderList.push(element.name + ' ' + item.status);
+                    })
+                  });
                   (this.$refs.AllModal as any).open();
-                  (this.$refs.AllModal as any).setInitParams(params.row.order,params.column.title,true);
+                  (this.$refs.AllModal as any).setInitParams(orderList,params.column.title,false);
                 }
               }
             },
@@ -152,9 +158,45 @@ export default class Users extends Vue {
               },
               on: {
                 click: () => {
-                  // (this as tableComponent).followData(params.row);
-                  (this.$refs.AllModal as any).open();
-                  (this.$refs.AllModal as any).setInitParams(params.row.comment,params.column.title,false);
+                  let commentList = [] as any;
+                  // 评论名获取
+                  get('http://127.0.0.1:3000/comment',{id: params.row.comment.userId, commentType: 1, page: 1, size: 10000})
+                  .then((res:any)=>{
+                    res.data.forEach((item:any)=>{
+                      commentList.push(item.itemName +  ' 评论：' + item.content);
+                    });
+
+                    (this.$refs.AllModal as any).open();
+                    (this.$refs.AllModal as any).setInitParams(commentList,params.column.title,false);
+                  })
+                  .catch(err => {
+                    this.$Message.error('加载失败'+err);
+                  })
+                  .finally(() => {
+                    
+                  });
+                  // setTimeout(()=>{
+                  //   let data = [{
+                  //     itemName: "商品2",
+                  //     type: "gpu 5700 ram 16",
+                  //     time: "2020-4-4 20:7:40",
+                  //     content: "测试人1在商品2的评论"
+                  //   },
+                  //   {
+                  //     itemName: "商品1",
+                  //     type: "gpu 5700 ram 16",
+                  //     time: "2020-4-4 20:7:42",
+                  //     content: "测试人1在商品1的评论"
+                  //   }];
+
+                  //   data.forEach((item:any)=>{
+                  //     commentList.push(item.itemName +  ' 评论：' + item.content);
+                  //   });
+
+                  //   (this.$refs.AllModal as any).open();
+                  //   (this.$refs.AllModal as any).setInitParams(commentList,params.column.title,false);
+                  // },50);
+                  
                 }
               }
             },
@@ -183,9 +225,24 @@ export default class Users extends Vue {
               },
               on: {
                 click: () => {
-                  // (this as tableComponent).followData(params.row);
-                  (this.$refs.AllModal as any).open();
-                  (this.$refs.AllModal as any).setInitParams(params.row.coupon,params.column.title,false);
+                  // (this as tableComponent).followData(params.row);params.row.comment.userId
+                  // 获取用户券
+                  let couponList = [] as any;
+                  get('http://127.0.0.1:3000/coupon/user',{userId: params.row.comment.userId})
+                  .then((res:any)=>{
+                    res.data.forEach((item:any)=>{
+                      couponList.push(' 折扣：' + item.coupon.discount +  ' 过期时间：' + item.coupon.endTime + ' 是否使用：' + item.coupon.isUsed);
+                    });
+
+                    (this.$refs.AllModal as any).open();
+                    (this.$refs.AllModal as any).setInitParams(couponList,params.column.title,false);
+                  })
+                  .catch(err => {
+                    this.$Message.error('加载失败'+err);
+                  })
+                  .finally(() => {
+                    
+                  });
                 }
               }
             },
@@ -245,13 +302,17 @@ export default class Users extends Vue {
     //   this.data=(res as any).data;
     //   this.total=(res as any).total;
 
-    //   // 地址转换
+    // 地址转换
+    // (this.data as any).forEach((item:any)=>{
     //   let addressList = [] as any;
-    //   (res as any).data.addressList.forEach((element:any) => {
+    //   item.addressList.forEach((element:any) => {
     //     let address = element.province + element.city + element.district + element.location + element.receiver;
     //     addressList.push(address);
     //   });
-    //   (this.data as any).addressList = addressList;
+    //   item.addressList = addressList;
+    // });
+
+    
 
     //   this.$Message.info((res as any).msg);
     // })
@@ -289,20 +350,35 @@ export default class Users extends Vue {
         }],
       comment:[
         {
-          content: "测试人1在商品2的评论",
+          content: "在商品2的评论",
           type: "gpu 5700 ram 16",
           time: "2020-4-4 20:7:40"
         },
         {
-          content: "测试人1在商品2的评论",
+          content: "在商品2的评论",
           type: "gpu 5700 ram 16",
           time: "2020-4-4 20:7:40"
         }
       ],
       coupon:['【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑，电脑好评','【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑,满200减100','【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑，电脑好评','【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑,满200减100','【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑，电脑好评','【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑,满200减100'],
-      orderList:[{itemName:'【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑',itemStatus:'到货'},
-      {itemName:'【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑',itemStatus:'未到货'},
-      {itemName:'【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑',itemStatus:'已退款'}],
+      orderList:[
+        {
+          item: [
+            {
+              name: "联想thinkpad x1",
+              type: "aaa封官许愿封官许愿肺结核aa",
+              price: 1,
+              count: 1
+            }
+          ],
+          _id: "5e80723cdf4be9360c31d12a",
+          orderId: "202032918236161",
+          userId: "5e639977001a8f3a7c007248",
+          orderTime: "2020-3-29 18:2:36",
+          total: "",
+          status: "未发货",
+        }
+      ],
       collects:[
         {
           itemName: "商品2"
@@ -326,7 +402,25 @@ export default class Users extends Vue {
           city: "广州市",
           district: "从化区",
           location: "详细地址",
-        }],
+      }],
+      orderList:[
+        {
+          item: [
+            {
+              name: "联想thinkpad x1",
+              type: "aaa封官许愿封官许愿肺结核aa",
+              price: 1,
+              count: 1
+            }
+          ],
+          _id: "5e80723cdf4be9360c31d12a",
+          orderId: "202032918236161",
+          userId: "5e639977001a8f3a7c007248",
+          orderTime: "2020-3-29 18:2:36",
+          total: "",
+          status: "未发货",
+        }
+      ],
       collects:[
         {
           itemName: "商品2"
@@ -348,62 +442,7 @@ export default class Users extends Vue {
         }
       ],
       coupon:['【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑，电脑好评','【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑,满200减100','【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑，电脑好评','【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑,满200减100','【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑，电脑好评','【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑,满200减100']
-    },
-    {
-      _id:'15121123',
-      nickname:'小一',
-      userName:'admin',
-      userSex:'女',
-      birth:'2016-03-01',
-      userTel:'13138041921',
-      addressList:[
-        {
-          receiver: "收件人",
-          phone: "1",
-          province: "广东省",
-          city: "广州市",
-          district: "从化区",
-          location: "详细地址",
-        },
-        {
-          receiver: "收件人",
-          phone: "1",
-          province: "广东省",
-          city: "广州市",
-          district: "从化区",
-          location: "详细地址",
-        },
-        {
-          receiver: "收件人",
-          phone: "1",
-          province: "广东省",
-          city: "广州市",
-          district: "从化区",
-          location: "详细地址",
-        }
-      ],
-      comment:[
-        {
-          content: "测试人1在商品2的评论",
-          type: "gpu 5700 ram 16",
-          time: "2020-4-4 20:7:40"
-        },
-        {
-          content: "测试人1在商品2的评论",
-          type: "gpu 5700 ram 16",
-          time: "2020-4-4 20:7:40"
-        }
-      ],
-      coupon:['【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑，电脑好评','【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑,满200减100','【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑，电脑好评','【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑,满200减100','【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑，电脑好评','【正常发货】联想 340C 十代酷睿i3 256G傲腾增强型SSD i3-1005G1/8G 15.6英寸轻薄本笔记本电脑,满200减100'],
-      collects:[
-        {
-          itemName: "商品2"
-        },
-        {
-          itemName: "商品2"
-        }
-      ]
-    },
+    }
   ];
 
     // 地址转换
