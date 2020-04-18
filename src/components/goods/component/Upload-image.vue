@@ -29,6 +29,7 @@
         :on-format-error="handleFormatError"
         :on-exceeded-size="handleMaxSize"
         :before-upload="handleBeforeUpload"
+        :name="'id'"
         multiple
         type="drag"
         action="nulls"
