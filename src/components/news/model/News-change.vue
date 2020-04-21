@@ -112,6 +112,7 @@ export default class NewsChange extends Vue {
     }
     else{
         if(this.isadd){
+          this.row._id=new Date().getTime() + '' + Math.floor(Math.random()*1000) + '';
           this.postNews(this.row);
         }else{
           this.putNews(this.row);
