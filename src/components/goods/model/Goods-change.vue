@@ -8,13 +8,13 @@
         
         <FormItem label="首页图片" prop="homeimg">
             <div v-if="flag">
-                <UploadImage :defaultList='homeimg'></UploadImage>
+                <UploadImage :defaultList='homeimg' :picture.sync='row.homeImg'></UploadImage>
             </div>
         </FormItem>
 
         <FormItem label="商品图片" prop="goodsimg">
             <div v-if="flag">
-                <UploadImage :defaultList='goodsimg'></UploadImage>
+                <UploadImage :defaultList='goodsimg' :picture.sync='row.itemImg'></UploadImage>
             </div>
         </FormItem>
 
@@ -207,6 +207,10 @@ export default class ChangeGoods extends Vue {
       this.row.styleID=value;
   }
 
+  @Emit('putGoods') private putGoods(row:any): void {}
+
+  @Emit('postGoods') private postGoods(row:any): void {}
+
   async requestSelect(value:any){
     this.row.junior=value;
     this.row.styleID=[];
@@ -251,10 +255,6 @@ export default class ChangeGoods extends Vue {
     // ]
     // },50)
   }
-
-  @Emit('putGoods') private putGoods(row:any): void {}
-
-  @Emit('postGoods') private postGoods(row:any): void {}
 
   // 获取参数选择
   getParams(){
