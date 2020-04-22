@@ -1,7 +1,7 @@
 <template>
     <div v-if="flag">
         <Modal v-model="flag" @on-ok='addParams' :title="title" :loading='loading'>
-            <Form ref="formInline" :rules="ruleInline" :label-width="100" inline>
+            <Form :model="quaryDate" ref="formInline" :rules="ruleInline" :label-width="100" inline>
                 <FormItem label="父级分类：" prop="category">
                     <Input v-model="quaryDate.category" placeholder="请输入父级分类名称"></Input>
                 </FormItem>
