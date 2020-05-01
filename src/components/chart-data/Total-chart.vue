@@ -82,13 +82,13 @@ export default class TotalChart extends Vue {
     });
   }
 
-  // 获取新闻api
+  // 获取表格数据
   getData(){
     const loading = this.$Loading;
     loading.start();
     get('http://127.0.0.1:3000/admin/revenue')
     .then(res=>{
-      this.data=(res as any).data;
+      this.data=(res as any).data.revenue;
       this.drawLine();
     })
     .catch(err => {
