@@ -14,7 +14,7 @@
 
         <FormItem label="商品图片" prop="goodsimg">
             <div v-if="flag">
-                <UploadImage :defaultList='goodsimg' :picture.sync='row.itemImg'></UploadImage>
+                <UploadImage :defaultList='goodsimg' :picture.sync='row.goodsImg'></UploadImage>
             </div>
         </FormItem>
 
@@ -160,10 +160,11 @@ export default class ChangeGoods extends Vue {
     this.title=title;
     if(row){
         this.row=row;
-        this.homeimg=[{'url':row.homeImg}];
-        this.goodsimg=[{'url':row.goodsImg}];
+        this.homeimg=[{'url':`http://127.0.0.1:3000${row.homeImg.replace(/-/g,'/')}`}];
+        this.goodsimg=[{'url':`http://127.0.0.1:3000${row.goodsImg.replace(/-/g,'/')}`}];
         this.selectedData=row.styleList;
         this.judge=true;
+        console.log(row)
         return;
     }
     this.row={};

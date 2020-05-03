@@ -123,6 +123,7 @@ export default class UploadImage extends Vue {
 
   mounted () {
       this.uploadList = (this.$refs.upload as any).fileList;
+      console.log(this.defaultList)
   }
 }
 </script>

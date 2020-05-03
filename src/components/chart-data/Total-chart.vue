@@ -113,7 +113,10 @@ export default class TotalChart extends Vue {
      }
 
      this.drawLine(); 
-     this.getData();
+  }
+
+  created(){
+      this.getData();
   }
 }
 </script>
