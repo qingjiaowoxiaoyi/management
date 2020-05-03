@@ -160,8 +160,8 @@ export default class ChangeGoods extends Vue {
     this.title=title;
     if(row){
         this.row=row;
-        this.homeimg=[{'url':row.homeimg}];
-        this.goodsimg=[{'url':row.goodsimg}];
+        this.homeimg=[{'url':row.homeImg}];
+        this.goodsimg=[{'url':row.goodsImg}];
         this.selectedData=row.styleList;
         this.judge=true;
         return;
