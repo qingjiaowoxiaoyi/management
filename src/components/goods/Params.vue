@@ -1,12 +1,14 @@
 <template>
    <div>
      <Button type="info" style="margin-bottom:10px;" @click="addParams">添加分类</Button>
-     <Table row-key="id" :columns="columns" :data="data" stripe border ></Table>
-     <div style="margin: 10px;overflow: hidden">
+
+     <Table row-key="id" :columns="columns" :data="data" stripe border :height="tableHeigh"></Table>
+
+     <!-- <div style="margin: 10px;overflow: hidden">
        <div style="float: right;">
-         <Page :total="total" :current="1" size="small" show-elevator show-sizer show-total @on-change="onPageChange" @on-page-size-change="onPageSizeChange"></Page>
+         <Page  size="small" @on-change="onPageChange" @on-page-size-change="onPageSizeChange"></Page>
        </div>
-     </div>
+     </div> -->
      <ParamsAdd ref="ParamsAdd" @requestParams='postParams'></ParamsAdd>
      <ParamsEdit ref="ParamsEdit" @requestParams='putParams'></ParamsEdit>
    </div>
@@ -137,11 +139,12 @@ export default class Params extends Vue {
 
   data: Array<any> = []
 
-  // 要查询数据
-  queryData: any = {
-    page: 1,
-    pageSize: 10
-  };
+//   // 要查询数据
+//   queryData: any = {
+//     page: 1,
+//     pageSize: 10
+//   };
+    tableHeigh = 950
 
   // 添加商品分类
   addParams(){
@@ -149,25 +152,25 @@ export default class Params extends Vue {
     (this.$refs.ParamsAdd as ParamsAdd).setInitParams(this.data,'增加分类');
   }
 
-  // 分页请求
-  total:number=0;//总页数
-  onPageChange(pageInfo: number) {
-    this.queryData.page = pageInfo;
-    this.getParams();
-  }
-  onPageSizeChange(newPageSize: number) {
-    this.queryData.pageSize = newPageSize;
-    this.getParams();
-  }
+//   // 分页请求
+//   total:number=0;//总页数
+//   onPageChange(pageInfo: number) {
+//     this.queryData.page = pageInfo;
+//     this.getParams();
+//   }
+//   onPageSizeChange(newPageSize: number) {
+//     this.queryData.pageSize = newPageSize;
+//     this.getParams();
+//   }
 
   // 获取分类api
   getParams(){
     const loading = this.$Loading;
     loading.start();
-    get('http://127.0.0.1:3000/category',this.queryData)
+    get('http://127.0.0.1:3000/category')
     .then(res=>{
       this.data=(res as any).resList;
-      this.total=(res as any).total;
+    //   this.total=(res as any).total;
       this.data.forEach((item,index)=>{
         if(item.children&&item.children.length>0){
           item.children.forEach((element:any,num:number)=>{
@@ -223,4 +226,5 @@ export default class Params extends Vue {
 </script>
 
 <style scoped>
+
 </style>
