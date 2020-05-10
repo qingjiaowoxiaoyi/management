@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Modal v-model="flag" :title="title">
+    <Modal v-model="flag" :title="title" @on-visible-change="changeModel">
       <Form :model="row" ref="ruleValidate" :label-width="100" class="user-from" label-colon>
         <FormItem label="商品名称" prop="itemName" :rules="ruleValidate.itemName">
             <Input placeholder="商品名称" :maxlength="30" v-model="row.itemName"/>
@@ -206,6 +206,13 @@ export default class ChangeGoods extends Vue {
 
   selectType(value:any){
       this.row.styleID=value;
+  }
+
+  changeModel(flag:boolean){
+      if(!flag){
+          this.homeimg=[];
+          this.goodsimg=[];
+      }
   }
 
   @Emit('putGoods') private putGoods(row:any): void {}
