@@ -105,9 +105,9 @@ export default class TotalChart extends Vue {
      for(let i = 0; i<12 ; i++){
          let mouths = '' as any;
          if(i+1>=10){
-             mouths = new Date().getFullYear() + '-' + (i + 1);
+             mouths = `${new Date().getFullYear()}-${(i + 1)}`;
          }else{
-             mouths = new Date().getFullYear() + '-0' + (i + 1);
+             mouths = `${new Date().getFullYear()}-0${(i + 1)}`;
          }
          this.dateList.push(mouths)
      }
