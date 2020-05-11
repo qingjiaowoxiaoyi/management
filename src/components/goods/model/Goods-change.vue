@@ -19,7 +19,7 @@
         </FormItem>
 
         <FormItem label="库存数量" prop="stock" :rules="ruleValidate.stock">
-            <Input v-model="row.stock" placeholder="库存数量"/>
+            <InputNumber v-model="row.stock" placeholder="库存数量" type="number"/>
         </FormItem>
 
         <FormItem label="商品分类" prop="junior" :rules="ruleValidate.junior">
@@ -121,7 +121,8 @@ export default class ChangeGoods extends Vue {
           {
               required: true,
               message: "请添加库存数量",
-              trigger: "blur"
+              trigger: "blur",
+              type:"number"
           }
       ],
       junior:[
@@ -156,21 +157,20 @@ export default class ChangeGoods extends Vue {
   open(){
     this.flag=true;
   }
-  setInitParams(title:string,row?:any){
+  setInitParams(title:string,judge?:any,row?:any){
     this.title=title;
+    this.judge=judge;
     if(row){
         this.row=row;
         this.homeimg=[{'url':`http://127.0.0.1:3000${row.homeImg.replace(/-/g,'/')}`}];
         this.goodsimg=[{'url':`http://127.0.0.1:3000${row.goodsImg.replace(/-/g,'/')}`}];
         this.selectedData=row.styleList;
-        this.judge=true;
         console.log(row)
         return;
     }
     this.row={};
     this.homeimg=this.goodsimg=[];
     this.row.salesCount=this.row.collectCount=this.row.rateCount=0;
-    this.judge=false;
   }
 
   // 保存订单信息
@@ -230,7 +230,7 @@ export default class ChangeGoods extends Vue {
     .then(res=>{
         if((res as any).code === '200'){
             this.selectedData = (res as any).doc.specs;
-            this.$Message.info((res as any).msg);
+            // this.$Message.info((res as any).msg);
         } else {
             this.$Message.error((res as any).msg);
         }

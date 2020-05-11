@@ -99,7 +99,7 @@ export default class Goods extends Vue {
                   on: {
                     click: () => {
                       (this.$refs.GoodsChange as any).open();
-                      (this.$refs.GoodsChange as any).setInitParams(params.column.title,params.row);
+                      (this.$refs.GoodsChange as any).setInitParams(params.column.title,true,params.row);
                     }
                   }
                 },
@@ -179,7 +179,7 @@ export default class Goods extends Vue {
   // 添加商品
   addgoods(){
     (this.$refs.GoodsChange as any).open();
-    (this.$refs.GoodsChange as any).setInitParams('添加商品');
+    (this.$refs.GoodsChange as any).setInitParams('添加商品',false);
   }
 
   // 获取商品信息

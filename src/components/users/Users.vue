@@ -109,43 +109,6 @@ export default class Users extends Vue {
       }
     },
     {
-      title: '用户订单',
-      align: 'center',
-      minWidth:80,
-      render:(h:any,params: any)=> {
-        return h('div', [
-          h(
-            'Button',
-            {
-              props: {
-                type: 'info',
-                size: 'small',
-                icon: 'ios-create'
-              },
-              style: {
-                marginRight: '5px',
-                fontSize: '12px'
-              },
-              on: {
-                click: () => {
-                  // (this as tableComponent).followData(params.row);
-                  let orderList = [] as any;
-                  params.row.orderList.forEach((item:any)=>{
-                    item.item.forEach((element:any)=>{
-                      orderList.push(element.name + ' ' + item.status);
-                    })
-                  });
-                  (this.$refs.AllModal as any).open();
-                  (this.$refs.AllModal as any).setInitParams(orderList,params.column.title,false);
-                }
-              }
-            },
-            '用户订单'
-          )
-        ])
-      }
-    },
-    {
       title: '用户评价',
       align: 'center',
       minWidth:80,
@@ -170,7 +133,7 @@ export default class Users extends Vue {
                   get('http://127.0.0.1:3000/comment',{id: params.row._id, commentType: 1, page: 1, size: 10000})
                   .then((res:any)=>{
                     res.data.forEach((item:any)=>{
-                      commentList.push(item.itemName +  ' 评论：' + item.content);
+                      commentList.push(`商品名: ${item.itemName}` + `\n商品参数: ${item.type}` + `\n评论内容${item.content}` + `\n评论时间: ${item.time}`);
                     });
 
                     (this.$refs.AllModal as any).open();
@@ -279,9 +242,25 @@ export default class Users extends Vue {
               },
               on: {
                 click: () => {
-                  // (this as tableComponent).followData(params.row);
-                  (this.$refs.AllModal as any).open();
-                  (this.$refs.AllModal as any).setInitParams(params.row.collects,params.column.title,false);
+                  // (this as tableComponent).followData(params.row);params.row.comment.userId
+                  // 获取用户券
+                  let collectsList = [] as any;
+                  get('http://127.0.0.1:3000/collect',{id: params.row._id})
+                  .then((res:any)=>{
+                    res.data.forEach((item:any)=>{
+                    //   couponList.push(' 折扣：' + item.coupon.discount +  ' 过期时间：' + item.coupon.endTime + ' 是否使用：' + item.isUsed);
+                      collectsList.push(`商品名: ${item.itemName}`)
+                    });
+
+                    (this.$refs.AllModal as any).open();
+                    (this.$refs.AllModal as any).setInitParams(collectsList,params.column.title,false);
+                  })
+                  .catch(err => {
+                    this.$Message.error('加载失败'+err);
+                  })
+                  .finally(() => {
+                    
+                  });
                 }
               }
             },
@@ -305,31 +284,31 @@ export default class Users extends Vue {
   getUsers(){
     const loading = this.$Loading;
     loading.start();
-    // get('http://127.0.0.1:3000/admin/getuser',this.queryData)
-    // .then((res:any)=>{
-    //   this.data=(res as any).data;
-    //   this.total=(res as any).total;
+    get('http://127.0.0.1:3000/admin/getuser', this.queryData)
+    .then((res:any)=>{
+      this.data=(res as any).data;
+      this.total=(res as any).total;
 
     // 地址转换
-    // (this.data as any).forEach((item:any)=>{
-    //   let addressList = [] as any;
-    //   item.addressList.forEach((element:any) => {
-    //     let address = element.province + element.city + element.district + element.location + element.receiver;
-    //     addressList.push(address);
-    //   });
-    //   item.addressList = addressList;
-    // });
+    (this.data as any).forEach((item:any)=>{
+      let addressList = [] as any;
+      item.addressList.forEach((element:any) => {
+        let address = element.province + element.city + element.district + element.location + element.receiver;
+        addressList.push(address);
+      });
+      item.addressList = addressList;
+    });
 
     
 
-    //   this.$Message.info((res as any).msg);
-    // })
-    // .catch((err:any) => {
-    //    this.$Message.error('加载失败');
-    // })
-    // .finally(() => {
-    //   loading.finish();
-    // });
+      this.$Message.info((res as any).msg);
+    })
+    .catch((err:any) => {
+       this.$Message.error('加载失败');
+    })
+    .finally(() => {
+      loading.finish();
+    });
 
     setTimeout(()=>{
       this.data = [
