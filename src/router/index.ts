@@ -127,7 +127,7 @@ const routes = [
                     {
                         path: '/chartData/TotalChart',
                         meta:{
-                            title: '每月数据统计'
+                            title: '年度数据统计'
                         },
                         component: TotalChart
                     }

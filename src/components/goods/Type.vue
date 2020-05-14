@@ -135,7 +135,7 @@ export default class Type extends Vue {
   // 要查询数据
   queryData: any = {
     page: 1,
-    pageSize: 10
+    pageSize: 10000
   };
 
   // 添加商品分类

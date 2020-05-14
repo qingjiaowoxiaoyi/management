@@ -62,7 +62,7 @@ export default class TotalChart extends Vue {
           {
               type: 'category',
               boundaryGap: false,
-              data: this.dateList
+              data: ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月']
           }
       ],
       yAxis: [
@@ -102,15 +102,15 @@ export default class TotalChart extends Vue {
   }
 
   mounted() {
-     for(let i = 0; i<12 ; i++){
-         let mouths = '' as any;
-         if(i+1>=10){
-             mouths = `${new Date().getFullYear()}-${(i + 1)}`;
-         }else{
-             mouths = `${new Date().getFullYear()}-0${(i + 1)}`;
-         }
-         this.dateList.push(mouths)
-     }
+    //  for(let i = 0; i<12 ; i++){
+    //      let mouths = '' as any;
+    //      if(i+1>=10){
+    //          mouths = `${new Date().getFullYear()}-${(i + 1)}`;
+    //      }else{
+    //          mouths = `${new Date().getFullYear()}-0${(i + 1)}`;
+    //      }
+        //  this.dateList.push(...['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'])
+     
 
      this.drawLine(); 
   }
