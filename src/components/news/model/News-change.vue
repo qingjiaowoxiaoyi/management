@@ -3,10 +3,10 @@
         <Modal v-model="flag"  @on-ok='addParams' :title="title" :loading='loading'>
             <Form ref="formInline" :model="row" :rules="ruleInline" :label-width="100" inline>
                 <FormItem label="新闻标题:" prop="title">
-                    <Input v-model="row.title" placeholder="请输入新闻标题"></Input>
-                </FormItem>
+                    <Input v-model="row.title" placeholder="请输入新闻标题"/>
+                </FormItem> 
                 <FormItem label="新闻内容:" prop="content">
-                    <Input v-model="row.content" type="textarea" :autosize="true" placeholder="请输入新闻内容" style="width:350px;"></Input>
+                    <Input v-model="row.content" type="textarea" :autosize="true" placeholder="请输入新闻内容" style="width:350px;"/>
                 </FormItem>
                 <FormItem label="新闻图片">
                     <div v-if="flag">
@@ -80,7 +80,7 @@ export default class NewsChange extends Vue {
     this.title=title;
     if(row){
         this.row=row;
-        this.newsimg=[{'url':row.picture}];
+        this.newsimg=[{'url':`http://127.0.0.1:3000${row.picture.replace(/-/g,'/')}`}];
         this.isadd=false;
         return;
     }

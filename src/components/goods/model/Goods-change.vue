@@ -162,7 +162,7 @@ export default class ChangeGoods extends Vue {
     this.judge=judge;
     if(row){
         this.row=row;
-        this.homeimg=[{'url':`http://127.0.0.1:3000${row.homeImg.replace(/-/g,'/')}`}];
+        this.homeimg=[{'url':` ${row.homeImg.replace(/-/g,'/')}`}];
         this.goodsimg=[{'url':`http://127.0.0.1:3000${row.goodsImg.replace(/-/g,'/')}`}];
         this.selectedData=row.styleList;
         console.log(row)

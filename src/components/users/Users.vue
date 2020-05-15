@@ -51,12 +51,32 @@ export default class Users extends Vue {
       key: 'userSex',
       align: 'center',
       minWidth:50,
+      render:(h:any,params: any)=> {
+        let userSex = '';
+        if(params.row.userSex==='0'){
+            userSex='男';
+        }else if(params.row.userSex==='1'){
+            userSex='女';
+        }else{
+            userSex='暂无填写';
+        }
+        return h('div', {}, userSex)
+      }
     },
     {
       title: '生日',
       key: 'birth',
       align: 'center',
       minWidth:80,
+       render:(h:any,params: any)=> {
+        let birth = '';
+        if(params.row.birth==='NaN-NaN-NaN'){
+            birth='暂无填写';
+        }else{
+            birth=params.row.birth;
+        }
+        return h('div', {}, birth)
+      }
     },
     {
       title: '电话号码',
