@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@types/echarts": "^4.4.3",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "echarts": "^4.6.0",
     "qs.js": "^0.1.12",
     "v-viewer": "^1.5.1",
